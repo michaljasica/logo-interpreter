@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="549.0" prefWidth="910.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafx.ViewController">
+   <children>
+      <VBox layoutX="14.0" layoutY="14.0" prefHeight="519.0" prefWidth="878.0">
+         <children>
+            <Pane fx:id="draw_panel" prefHeight="391.0" prefWidth="878.0" />
+            <HBox prefHeight="138.0" prefWidth="878.0">
+               <children>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <Button fx:id="enter" layoutX="74.0" layoutY="54.0" mnemonicParsing="false" text="Button" />
+                     </children>
+                  </AnchorPane>
+                  <TextArea fx:id="console" prefHeight="133.0" prefWidth="679.0" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
