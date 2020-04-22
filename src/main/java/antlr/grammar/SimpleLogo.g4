@@ -93,15 +93,25 @@ value
    ;
 
 signExpression
-   : (('+' | '-'))* (number | deref | func)
+   : (plusOrMinus)* (number | deref | func)
    ;
 
 multiplyingExpression
-   : signExpression (('*' | '/') signExpression)*
+   : signExpression (mulOrDiv signExpression)*
    ;
 
 expression
-   : multiplyingExpression (('+' | '-') multiplyingExpression)*
+   : multiplyingExpression (plusOrMinus multiplyingExpression)*
+   ;
+
+plusOrMinus
+   : '+'
+   | '-'
+   ;
+
+mulOrDiv
+   : '*'
+   | '/'
    ;
 
 deref

@@ -1,4 +1,5 @@
-package antlr.generated;// Generated from C:/Users/micha/IdeaProjects/Kompilatory-Logo/src/main/java\SimpleLogo.g4 by ANTLR 4.8
+// Generated from C:/Users/micha/IdeaProjects/Kompilatory-Logo/src/main/java/antlr/grammar\SimpleLogo.g4 by ANTLR 4.8
+package antlr.generated;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
@@ -207,6 +208,26 @@ public interface SimpleLogoListener extends ParseTreeListener {
 	 */
 	void exitExpression(SimpleLogoParser.ExpressionContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link SimpleLogoParser#plusOrMinus}.
+	 * @param ctx the parse tree
+	 */
+	void enterPlusOrMinus(SimpleLogoParser.PlusOrMinusContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SimpleLogoParser#plusOrMinus}.
+	 * @param ctx the parse tree
+	 */
+	void exitPlusOrMinus(SimpleLogoParser.PlusOrMinusContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SimpleLogoParser#mulOrDiv}.
+	 * @param ctx the parse tree
+	 */
+	void enterMulOrDiv(SimpleLogoParser.MulOrDivContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SimpleLogoParser#mulOrDiv}.
+	 * @param ctx the parse tree
+	 */
+	void exitMulOrDiv(SimpleLogoParser.MulOrDivContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link SimpleLogoParser#deref}.
 	 * @param ctx the parse tree
 	 */
@@ -386,24 +407,4 @@ public interface SimpleLogoListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitComment(SimpleLogoParser.CommentContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link SimpleLogoParser#l_bucket}.
-	 * @param ctx the parse tree
-	 */
-	void enterL_bucket(SimpleLogoParser.L_bucketContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link SimpleLogoParser#l_bucket}.
-	 * @param ctx the parse tree
-	 */
-	void exitL_bucket(SimpleLogoParser.L_bucketContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link SimpleLogoParser#r_bucket}.
-	 * @param ctx the parse tree
-	 */
-	void enterR_bucket(SimpleLogoParser.R_bucketContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link SimpleLogoParser#r_bucket}.
-	 * @param ctx the parse tree
-	 */
-	void exitR_bucket(SimpleLogoParser.R_bucketContext ctx);
 }

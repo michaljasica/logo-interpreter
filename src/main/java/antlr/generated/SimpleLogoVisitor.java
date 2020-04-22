@@ -1,4 +1,5 @@
-package antlr.generated;// Generated from C:/Users/micha/IdeaProjects/Kompilatory-Logo/src/main/java\SimpleLogo.g4 by ANTLR 4.8
+// Generated from C:/Users/micha/IdeaProjects/Kompilatory-Logo/src/main/java/antlr/grammar\SimpleLogo.g4 by ANTLR 4.8
+package antlr.generated;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
 /**
@@ -130,6 +131,18 @@ public interface SimpleLogoVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitExpression(SimpleLogoParser.ExpressionContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link SimpleLogoParser#plusOrMinus}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPlusOrMinus(SimpleLogoParser.PlusOrMinusContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SimpleLogoParser#mulOrDiv}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMulOrDiv(SimpleLogoParser.MulOrDivContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link SimpleLogoParser#deref}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -237,16 +250,4 @@ public interface SimpleLogoVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitComment(SimpleLogoParser.CommentContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link SimpleLogoParser#l_bucket}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitL_bucket(SimpleLogoParser.L_bucketContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link SimpleLogoParser#r_bucket}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitR_bucket(SimpleLogoParser.R_bucketContext ctx);
 }

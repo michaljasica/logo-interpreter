@@ -16,7 +16,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         ANTLRInputStream inputStream = new ANTLRInputStream(
-                "repeat 2 [ fd 100 + 55 rt 144 ] \r\n");
+                "repeat 2 [ fd 100 repeat 5 [ fd 100 rt 50 ] fd 100 ] \r\n");
 
         SimpleLogoLexer markupLexer = new SimpleLogoLexer(inputStream);
         CommonTokenStream commonTokenStream = new CommonTokenStream(markupLexer);

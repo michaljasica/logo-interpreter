@@ -2,14 +2,23 @@ package antlr.impl;
 
 import antlr.generated.SimpleLogoListener;
 import antlr.generated.SimpleLogoParser;
+import command.*;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
+import utils.MathUtils;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Stack;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class LogoImpl implements SimpleLogoListener {
 
+    private Stack<ICommand> COMMANDS = new Stack<>();
     private final static Logger LOGGER = Logger.getLogger(LogoImpl.class.getName());
 
     @Override
@@ -85,11 +94,25 @@ public class LogoImpl implements SimpleLogoListener {
     @Override
     public void enterRepeat(SimpleLogoParser.RepeatContext ctx) {
         LOGGER.info("ENTER REPEAT");
+        COMMANDS.push(new Command(Type.REPEAT));
     }
 
     @Override
     public void exitRepeat(SimpleLogoParser.RepeatContext ctx) {
         LOGGER.info("EXIT REPEAT");
+        List<ICommand> commands = new ArrayList<>();
+        while (!Type.REPEAT.equals(COMMANDS.peek().getType())) {
+            commands.add(COMMANDS.pop());
+        }
+
+        ICommand pop = COMMANDS.pop();
+        String calculate = pop.calculate();
+        Collections.reverse(commands);
+
+        IntStream.range(0, Integer.parseInt(calculate))
+                .boxed()
+                .flatMap(index -> commands.stream())
+                .forEach(obj -> COMMANDS.push(obj));
     }
 
     @Override
@@ -184,32 +207,69 @@ public class LogoImpl implements SimpleLogoListener {
 
     @Override
     public void enterSignExpression(SimpleLogoParser.SignExpressionContext ctx) {
+        LOGGER.info("enterSignExpression");
+        String text = ctx.getChild(0).getText();
+        SignExpression signExpression = new SignExpression();
+        signExpression.getARGS().add(text);
 
+        COMMANDS.push(signExpression);
     }
 
     @Override
     public void exitSignExpression(SimpleLogoParser.SignExpressionContext ctx) {
-
+        ICommand pop = COMMANDS.pop();
+        COMMANDS.peek().getARGS().add(pop.calculate());
     }
 
     @Override
     public void enterMultiplyingExpression(SimpleLogoParser.MultiplyingExpressionContext ctx) {
-
+        LOGGER.info("enterMultiplyingExpression");
+        COMMANDS.push(new MultiplyingExpression());
     }
 
     @Override
     public void exitMultiplyingExpression(SimpleLogoParser.MultiplyingExpressionContext ctx) {
-
+        ICommand pop = COMMANDS.pop();
+        List<String> args = pop.getARGS();
+        String calculate = MathUtils.calculate(args);
+        COMMANDS.peek().getARGS().add(calculate);
     }
 
     @Override
     public void enterExpression(SimpleLogoParser.ExpressionContext ctx) {
         LOGGER.info("ENTER EXPRESSION");
+        COMMANDS.push(new Expression());
     }
 
     @Override
     public void exitExpression(SimpleLogoParser.ExpressionContext ctx) {
+        ICommand pop = COMMANDS.pop();
+        List<String> args = pop.getARGS();
+        String calculate = MathUtils.calculate(args);
+        COMMANDS.peek().getARGS().add(calculate);
         LOGGER.info("EXIT EXPRESSION");
+    }
+
+    @Override
+    public void enterPlusOrMinus(SimpleLogoParser.PlusOrMinusContext ctx) {
+        String text = ctx.getChild(0).getText();
+        COMMANDS.peek().getARGS().add(text);
+    }
+
+    @Override
+    public void exitPlusOrMinus(SimpleLogoParser.PlusOrMinusContext ctx) {
+
+    }
+
+    @Override
+    public void enterMulOrDiv(SimpleLogoParser.MulOrDivContext ctx) {
+        String text = ctx.getChild(0).getText();
+        COMMANDS.peek().getARGS().add(text);
+    }
+
+    @Override
+    public void exitMulOrDiv(SimpleLogoParser.MulOrDivContext ctx) {
+
     }
 
     @Override
@@ -225,6 +285,7 @@ public class LogoImpl implements SimpleLogoListener {
     @Override
     public void enterFd(SimpleLogoParser.FdContext ctx) {
         LOGGER.info("ENTER FD");
+        COMMANDS.push(new Command(Type.FD));
     }
 
     @Override
@@ -234,7 +295,7 @@ public class LogoImpl implements SimpleLogoListener {
 
     @Override
     public void enterBk(SimpleLogoParser.BkContext ctx) {
-
+        COMMANDS.push(new Command(Type.BK));
     }
 
     @Override
@@ -244,7 +305,7 @@ public class LogoImpl implements SimpleLogoListener {
 
     @Override
     public void enterRt(SimpleLogoParser.RtContext ctx) {
-
+        COMMANDS.push(new Command(Type.RT));
     }
 
     @Override
@@ -254,7 +315,7 @@ public class LogoImpl implements SimpleLogoListener {
 
     @Override
     public void enterLt(SimpleLogoParser.LtContext ctx) {
-
+        COMMANDS.push(new Command(Type.LT));
     }
 
     @Override
@@ -264,7 +325,7 @@ public class LogoImpl implements SimpleLogoListener {
 
     @Override
     public void enterCs(SimpleLogoParser.CsContext ctx) {
-
+        COMMANDS.push(new Command(Type.CS));
     }
 
     @Override
@@ -274,7 +335,7 @@ public class LogoImpl implements SimpleLogoListener {
 
     @Override
     public void enterPu(SimpleLogoParser.PuContext ctx) {
-
+        COMMANDS.push(new Command(Type.PU));
     }
 
     @Override
@@ -284,7 +345,7 @@ public class LogoImpl implements SimpleLogoListener {
 
     @Override
     public void enterPd(SimpleLogoParser.PdContext ctx) {
-
+        COMMANDS.push(new Command(Type.PD));
     }
 
     @Override
@@ -294,7 +355,7 @@ public class LogoImpl implements SimpleLogoListener {
 
     @Override
     public void enterHt(SimpleLogoParser.HtContext ctx) {
-
+        COMMANDS.push(new Command(Type.HT));
     }
 
     @Override
@@ -304,7 +365,7 @@ public class LogoImpl implements SimpleLogoListener {
 
     @Override
     public void enterSt(SimpleLogoParser.StContext ctx) {
-
+        COMMANDS.push(new Command(Type.ST));
     }
 
     @Override
@@ -314,7 +375,7 @@ public class LogoImpl implements SimpleLogoListener {
 
     @Override
     public void enterHome(SimpleLogoParser.HomeContext ctx) {
-
+        COMMANDS.push(new Command(Type.HOME));
     }
 
     @Override
@@ -324,7 +385,7 @@ public class LogoImpl implements SimpleLogoListener {
 
     @Override
     public void enterStop(SimpleLogoParser.StopContext ctx) {
-
+        COMMANDS.push(new Command(Type.STOP));
     }
 
     @Override
@@ -334,7 +395,7 @@ public class LogoImpl implements SimpleLogoListener {
 
     @Override
     public void enterLabel(SimpleLogoParser.LabelContext ctx) {
-
+        COMMANDS.push(new Command(Type.LABEL));
     }
 
     @Override
@@ -389,26 +450,6 @@ public class LogoImpl implements SimpleLogoListener {
 
     @Override
     public void exitComment(SimpleLogoParser.CommentContext ctx) {
-
-    }
-
-    @Override
-    public void enterL_bucket(SimpleLogoParser.L_bucketContext ctx) {
-
-    }
-
-    @Override
-    public void exitL_bucket(SimpleLogoParser.L_bucketContext ctx) {
-
-    }
-
-    @Override
-    public void enterR_bucket(SimpleLogoParser.R_bucketContext ctx) {
-
-    }
-
-    @Override
-    public void exitR_bucket(SimpleLogoParser.R_bucketContext ctx) {
 
     }
 

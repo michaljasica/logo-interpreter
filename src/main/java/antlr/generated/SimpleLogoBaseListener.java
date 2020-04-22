@@ -1,4 +1,5 @@
-package antlr.generated;// Generated from C:/Users/micha/IdeaProjects/Kompilatory-Logo/src/main/java\SimpleLogo.g4 by ANTLR 4.8
+// Generated from C:/Users/micha/IdeaProjects/Kompilatory-Logo/src/main/java/antlr/grammar\SimpleLogo.g4 by ANTLR 4.8
+package antlr.generated;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
@@ -255,6 +256,30 @@ public class SimpleLogoBaseListener implements SimpleLogoListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterPlusOrMinus(SimpleLogoParser.PlusOrMinusContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitPlusOrMinus(SimpleLogoParser.PlusOrMinusContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterMulOrDiv(SimpleLogoParser.MulOrDivContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitMulOrDiv(SimpleLogoParser.MulOrDivContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterDeref(SimpleLogoParser.DerefContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -466,30 +491,6 @@ public class SimpleLogoBaseListener implements SimpleLogoListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitComment(SimpleLogoParser.CommentContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterL_bucket(SimpleLogoParser.L_bucketContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitL_bucket(SimpleLogoParser.L_bucketContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterR_bucket(SimpleLogoParser.R_bucketContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitR_bucket(SimpleLogoParser.R_bucketContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
