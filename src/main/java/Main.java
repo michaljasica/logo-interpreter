@@ -1,5 +1,5 @@
 import antlr.impl.parser.SimpleLogoParserImpl;
-import command.OneArgCommand;
+import command.Command;
 import javafx.stage.Stage;
 import javafx.application.Application;
 
@@ -15,8 +15,8 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-        List<OneArgCommand> parse = new SimpleLogoParserImpl()
-                .parse("rt 100 fd 100 \r\n");
+        List<Command> parse = new SimpleLogoParserImpl()
+                .parse("repeat 2 [rt 100 + 50]\r\n");
 
         System.out.println("DONE");
 

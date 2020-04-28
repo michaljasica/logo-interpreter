@@ -1,6 +1,6 @@
 package command;
 
-public class OneArgCommand {
+public class OneArgCommand implements Command {
 
     private Type type;
     private Long argument;

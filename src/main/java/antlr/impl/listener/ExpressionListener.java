@@ -6,6 +6,7 @@ import org.antlr.v4.runtime.RuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
 import command.Number;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
@@ -46,7 +47,7 @@ public class ExpressionListener extends SimpleLogoBaseVisitor {
                 .map(Number::getNumber)
                 .collect(Collectors.toList());
 
-        return IntStream.range(0, numbers.size() - 1)
+        return IntStream.range(0, numbers.size())
                 .boxed()
                 .map(index -> new Number(numbers.get(index), operators.get(index)))
                 .reduce(Number::merge)
@@ -62,7 +63,7 @@ public class ExpressionListener extends SimpleLogoBaseVisitor {
                 .map(Number::getNumber)
                 .collect(Collectors.toList());
 
-        return IntStream.range(0, numbers.size() - 1)
+        return IntStream.range(0, numbers.size())
                 .boxed()
                 .map(index -> new Number(numbers.get(index), operators.get(index)))
                 .reduce(Number::merge)
@@ -91,7 +92,8 @@ public class ExpressionListener extends SimpleLogoBaseVisitor {
         List<String> operators = ctx.mulOrDiv().stream()
                 .map(obj -> (String) obj.accept(this))
                 .collect(Collectors.toList());
-        List<String> mockOperator = Arrays.asList("+");
+        List<String> mockOperator = new ArrayList<>();
+        mockOperator.add("+");
         mockOperator.addAll(operators);
         return mockOperator;
     }
@@ -101,7 +103,8 @@ public class ExpressionListener extends SimpleLogoBaseVisitor {
         List<String> operators = ctx.plusOrMinus().stream()
                 .map(obj -> (String) obj.accept(this))
                 .collect(Collectors.toList());
-        List<String> mockOperator = Arrays.asList("+");
+        List<String> mockOperator = new ArrayList<>();
+        mockOperator.add("+");
         mockOperator.addAll(operators);
         return mockOperator;
     }

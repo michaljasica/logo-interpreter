@@ -2,9 +2,10 @@ package antlr.impl.listener;
 
 import antlr.generated.SimpleLogoBaseVisitor;
 import antlr.generated.SimpleLogoParser;
-import command.NoArgCommand;
-import command.OneArgCommand;
-import command.Type;
+import command.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class SimpleCommandsListener extends SimpleLogoBaseVisitor {
 
@@ -50,7 +51,7 @@ public class SimpleCommandsListener extends SimpleLogoBaseVisitor {
 
     @Override
     public NoArgCommand visitHt(SimpleLogoParser.HtContext ctx) {
-        return new NoArgCommand(Type.PD);
+        return new NoArgCommand(Type.HT);
     }
 
     @Override
@@ -74,8 +75,17 @@ public class SimpleCommandsListener extends SimpleLogoBaseVisitor {
     }
 
     @Override
-    public NoArgCommand visitRepeat(SimpleLogoParser.RepeatContext ctx) {
-        return new NoArgCommand(Type.REPEAT);
+    public Repeat visitRepeat(SimpleLogoParser.RepeatContext ctx) {
+        Long expressionValue = (Long) ctx.expression().accept(expressionListener);
+        List<Command> commands = (List<Command>) ctx.block().accept(this);
+        return new Repeat(Type.REPEAT, expressionValue, commands);
+    }
+
+    @Override
+    public List<Command> visitBlock(SimpleLogoParser.BlockContext ctx) {
+        return ctx.cmd().stream()
+                .map(cmd -> (Command) cmd.accept(this))
+                .collect(Collectors.toList());
     }
 
 }

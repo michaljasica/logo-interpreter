@@ -1,6 +1,6 @@
 package command;
 
-public class NoArgCommand {
+public class NoArgCommand implements Command {
 
     private Type type;
 
