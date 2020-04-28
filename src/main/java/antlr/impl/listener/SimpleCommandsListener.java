@@ -2,7 +2,7 @@ package antlr.impl.listener;
 
 import antlr.generated.SimpleLogoBaseVisitor;
 import antlr.generated.SimpleLogoParser;
-import command.Command;
+import command.NoArgCommand;
 import command.OneArgCommand;
 import command.Type;
 
@@ -34,48 +34,48 @@ public class SimpleCommandsListener extends SimpleLogoBaseVisitor {
     }
 
     @Override
-    public Command visitCs(SimpleLogoParser.CsContext ctx) {
-        return new Command(Type.CS);
+    public NoArgCommand visitCs(SimpleLogoParser.CsContext ctx) {
+        return new NoArgCommand(Type.CS);
     }
 
     @Override
-    public Command visitPu(SimpleLogoParser.PuContext ctx) {
-        return new Command(Type.PU);
+    public NoArgCommand visitPu(SimpleLogoParser.PuContext ctx) {
+        return new NoArgCommand(Type.PU);
     }
 
     @Override
-    public Command visitPd(SimpleLogoParser.PdContext ctx) {
-        return new Command(Type.PD);
+    public NoArgCommand visitPd(SimpleLogoParser.PdContext ctx) {
+        return new NoArgCommand(Type.PD);
     }
 
     @Override
-    public Command visitHt(SimpleLogoParser.HtContext ctx) {
-        return new Command(Type.PD);
+    public NoArgCommand visitHt(SimpleLogoParser.HtContext ctx) {
+        return new NoArgCommand(Type.PD);
     }
 
     @Override
-    public Command visitSt(SimpleLogoParser.StContext ctx) {
-        return new Command(Type.ST);
+    public NoArgCommand visitSt(SimpleLogoParser.StContext ctx) {
+        return new NoArgCommand(Type.ST);
     }
 
     @Override
-    public Command visitHome(SimpleLogoParser.HomeContext ctx) {
-        return new Command(Type.HOME);
+    public NoArgCommand visitHome(SimpleLogoParser.HomeContext ctx) {
+        return new NoArgCommand(Type.HOME);
     }
 
     @Override
-    public Command visitStop(SimpleLogoParser.StopContext ctx) {
-        return new Command(Type.STOP);
+    public NoArgCommand visitStop(SimpleLogoParser.StopContext ctx) {
+        return new NoArgCommand(Type.STOP);
     }
 
     @Override
-    public Command visitLabel(SimpleLogoParser.LabelContext ctx) {
-        return new Command(Type.LABEL);
+    public NoArgCommand visitLabel(SimpleLogoParser.LabelContext ctx) {
+        return new NoArgCommand(Type.LABEL);
     }
 
     @Override
-    public Command visitRepeat(SimpleLogoParser.RepeatContext ctx) {
-        return new Command(Type.REPEAT);
+    public NoArgCommand visitRepeat(SimpleLogoParser.RepeatContext ctx) {
+        return new NoArgCommand(Type.REPEAT);
     }
 
 }

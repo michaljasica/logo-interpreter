@@ -4,7 +4,7 @@ import antlr.generated.SimpleLogoBaseVisitor;
 import antlr.generated.SimpleLogoParser;
 import org.antlr.v4.runtime.RuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
-import v2.Number;
+import command.Number;
 
 import java.util.Arrays;
 import java.util.List;

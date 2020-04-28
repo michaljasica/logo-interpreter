@@ -16,7 +16,7 @@ public class Main extends Application {
     public void start(Stage stage) throws Exception {
 
         List<OneArgCommand> parse = new SimpleLogoParserImpl()
-                .parse("fd 100 \r\n");
+                .parse("rt 100 fd 100 \r\n");
 
         System.out.println("DONE");
 

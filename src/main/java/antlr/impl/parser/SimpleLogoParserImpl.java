@@ -4,12 +4,9 @@ import antlr.generated.SimpleLogoBaseVisitor;
 import antlr.generated.SimpleLogoLexer;
 import antlr.generated.SimpleLogoParser;
 import antlr.impl.listener.SimpleCommandsListener;
-import command.Command;
 import command.OneArgCommand;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.misc.NotNull;
-import v2.Line;
-import v2.Prog;
 
 import java.util.List;
 import java.util.stream.Collectors;

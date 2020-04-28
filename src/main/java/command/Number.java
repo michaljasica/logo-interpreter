@@ -1,4 +1,4 @@
-package v2;
+package command;
 
 import java.util.HashMap;
 import java.util.function.BiFunction;
