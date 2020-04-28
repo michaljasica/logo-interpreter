@@ -113,6 +113,12 @@ public interface SimpleLogoVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitValue(SimpleLogoParser.ValueContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link SimpleLogoParser#expressionValue}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExpressionValue(SimpleLogoParser.ExpressionValueContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link SimpleLogoParser#signExpression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

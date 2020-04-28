@@ -220,6 +220,18 @@ public class SimpleLogoBaseListener implements SimpleLogoListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterExpressionValue(SimpleLogoParser.ExpressionValueContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitExpressionValue(SimpleLogoParser.ExpressionValueContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterSignExpression(SimpleLogoParser.SignExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}

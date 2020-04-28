@@ -1,4 +1,4 @@
-package antlr.impl;
+package antlr.impl.deprecated;
 
 import antlr.generated.SimpleLogoListener;
 import antlr.generated.SimpleLogoParser;
@@ -13,7 +13,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class LogoImpl implements SimpleLogoListener {
@@ -202,6 +201,16 @@ public class LogoImpl implements SimpleLogoListener {
 
     @Override
     public void exitValue(SimpleLogoParser.ValueContext ctx) {
+
+    }
+
+    @Override
+    public void enterExpressionValue(SimpleLogoParser.ExpressionValueContext ctx) {
+
+    }
+
+    @Override
+    public void exitExpressionValue(SimpleLogoParser.ExpressionValueContext ctx) {
 
     }
 

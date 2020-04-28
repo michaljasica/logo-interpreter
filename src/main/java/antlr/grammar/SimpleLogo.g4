@@ -92,8 +92,12 @@ value
    | deref
    ;
 
+expressionValue
+   : (number | deref | func)
+   ;
+
 signExpression
-   : (plusOrMinus)* (number | deref | func)
+   : (plusOrMinus)* expressionValue
    ;
 
 multiplyingExpression

@@ -1,10 +1,9 @@
-import antlr.generated.*;
-import antlr.impl.LogoImpl;
+import antlr.impl.parser.SimpleLogoParserImpl;
+import command.OneArgCommand;
 import javafx.stage.Stage;
 import javafx.application.Application;
-import org.antlr.v4.runtime.ANTLRInputStream;
-import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.tree.ParseTreeWalker;
+
+import java.util.List;
 
 
 public class Main extends Application {
@@ -15,15 +14,11 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        ANTLRInputStream inputStream = new ANTLRInputStream(
-                "repeat 2 [ fd 100 repeat 5 [ fd 100 rt 50 ] fd 100 ] \r\n");
 
-        SimpleLogoLexer markupLexer = new SimpleLogoLexer(inputStream);
-        CommonTokenStream commonTokenStream = new CommonTokenStream(markupLexer);
-        SimpleLogoParser logoParser = new SimpleLogoParser(commonTokenStream);
-        SimpleLogoParser.ProgContext prog = logoParser.prog();
+        List<OneArgCommand> parse = new SimpleLogoParserImpl()
+                .parse("fd 100 \r\n");
 
-        ParseTreeWalker walker = new ParseTreeWalker();
-        walker.walk(new LogoImpl(), prog);
+        System.out.println("DONE");
+
     }
 }

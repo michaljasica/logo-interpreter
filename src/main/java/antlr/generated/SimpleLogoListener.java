@@ -178,6 +178,16 @@ public interface SimpleLogoListener extends ParseTreeListener {
 	 */
 	void exitValue(SimpleLogoParser.ValueContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link SimpleLogoParser#expressionValue}.
+	 * @param ctx the parse tree
+	 */
+	void enterExpressionValue(SimpleLogoParser.ExpressionValueContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SimpleLogoParser#expressionValue}.
+	 * @param ctx the parse tree
+	 */
+	void exitExpressionValue(SimpleLogoParser.ExpressionValueContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link SimpleLogoParser#signExpression}.
 	 * @param ctx the parse tree
 	 */
