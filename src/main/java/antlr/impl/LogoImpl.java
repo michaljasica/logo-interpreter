@@ -1,5 +1,6 @@
 package antlr.impl;
 
+import Gui.TurtleSupport;
 import antlr.generated.SimpleLogoListener;
 import antlr.generated.SimpleLogoParser;
 import command.*;
@@ -29,6 +30,7 @@ public class LogoImpl implements SimpleLogoListener {
     @Override
     public void exitProg(SimpleLogoParser.ProgContext ctx) {
         LOGGER.info("EXIT PROG");
+        TurtleSupport.COMMANDS2 = this.COMMANDS;
     }
 
     @Override
@@ -95,6 +97,7 @@ public class LogoImpl implements SimpleLogoListener {
     public void enterRepeat(SimpleLogoParser.RepeatContext ctx) {
         LOGGER.info("ENTER REPEAT");
         COMMANDS.push(new Command(Type.REPEAT));
+
     }
 
     @Override
@@ -295,6 +298,7 @@ public class LogoImpl implements SimpleLogoListener {
 
     @Override
     public void enterBk(SimpleLogoParser.BkContext ctx) {
+        LOGGER.info("ENTER BK");
         COMMANDS.push(new Command(Type.BK));
     }
 
@@ -305,7 +309,9 @@ public class LogoImpl implements SimpleLogoListener {
 
     @Override
     public void enterRt(SimpleLogoParser.RtContext ctx) {
+        LOGGER.info("ENTER RT");
         COMMANDS.push(new Command(Type.RT));
+
     }
 
     @Override
@@ -315,6 +321,7 @@ public class LogoImpl implements SimpleLogoListener {
 
     @Override
     public void enterLt(SimpleLogoParser.LtContext ctx) {
+        LOGGER.info("ENTER LT");
         COMMANDS.push(new Command(Type.LT));
     }
 
@@ -325,7 +332,9 @@ public class LogoImpl implements SimpleLogoListener {
 
     @Override
     public void enterCs(SimpleLogoParser.CsContext ctx) {
+        LOGGER.info("ENTER CS");
         COMMANDS.push(new Command(Type.CS));
+
     }
 
     @Override
@@ -335,7 +344,9 @@ public class LogoImpl implements SimpleLogoListener {
 
     @Override
     public void enterPu(SimpleLogoParser.PuContext ctx) {
+        LOGGER.info("ENTER PU");
         COMMANDS.push(new Command(Type.PU));
+
     }
 
     @Override
@@ -345,6 +356,7 @@ public class LogoImpl implements SimpleLogoListener {
 
     @Override
     public void enterPd(SimpleLogoParser.PdContext ctx) {
+        LOGGER.info("ENTER PD");
         COMMANDS.push(new Command(Type.PD));
     }
 
@@ -355,7 +367,10 @@ public class LogoImpl implements SimpleLogoListener {
 
     @Override
     public void enterHt(SimpleLogoParser.HtContext ctx) {
+        LOGGER.info("ENTER HT");
         COMMANDS.push(new Command(Type.HT));
+
+
     }
 
     @Override
@@ -365,6 +380,7 @@ public class LogoImpl implements SimpleLogoListener {
 
     @Override
     public void enterSt(SimpleLogoParser.StContext ctx) {
+        LOGGER.info("ENTER ST");
         COMMANDS.push(new Command(Type.ST));
     }
 
@@ -375,6 +391,7 @@ public class LogoImpl implements SimpleLogoListener {
 
     @Override
     public void enterHome(SimpleLogoParser.HomeContext ctx) {
+        LOGGER.info("ENTER HOME");
         COMMANDS.push(new Command(Type.HOME));
     }
 
@@ -385,6 +402,7 @@ public class LogoImpl implements SimpleLogoListener {
 
     @Override
     public void enterStop(SimpleLogoParser.StopContext ctx) {
+        LOGGER.info("ENTER STOP");
         COMMANDS.push(new Command(Type.STOP));
     }
 
@@ -395,6 +413,7 @@ public class LogoImpl implements SimpleLogoListener {
 
     @Override
     public void enterLabel(SimpleLogoParser.LabelContext ctx) {
+        LOGGER.info("ENTER LABEL");
         COMMANDS.push(new Command(Type.LABEL));
     }
 
