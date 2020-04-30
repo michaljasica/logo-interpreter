@@ -5,7 +5,6 @@ import antlr.generated.SimpleLogoLexer;
 import antlr.generated.SimpleLogoParser;
 import antlr.impl.listener.SimpleCommandsListener;
 import command.Command;
-import command.Command;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.misc.NotNull;
 
