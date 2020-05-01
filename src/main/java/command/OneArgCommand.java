@@ -2,8 +2,8 @@ package command;
 
 public class OneArgCommand implements Command {
 
-    private Type type;
-    private Long argument;
+    private final Type type;
+    private final Long argument;
 
     public OneArgCommand(Type type, Long argument) {
         this.type = type;
@@ -14,15 +14,8 @@ public class OneArgCommand implements Command {
         return type;
     }
 
-    public void setType(Type type) {
-        this.type = type;
-    }
-
     public Long getArgument() {
         return argument;
     }
 
-    public void setArgument(Long argument) {
-        this.argument = argument;
-    }
 }

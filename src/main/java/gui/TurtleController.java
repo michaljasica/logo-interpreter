@@ -1,55 +1,72 @@
 package gui;
 
+import command.Command;
 import command.OneArgCommand;
 import command.Type;
+import gui.model.Turtle;
+import javafx.scene.Node;
+import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
-import org.antlr.v4.runtime.misc.Pair;
 
+import java.util.List;
 import java.util.Optional;
-import java.util.function.BiFunction;
+import java.util.stream.Collectors;
 
 public class TurtleController {
 
-    private static final double HALF_PI = Math.PI / 2;
+    private static final double HALF_PI = Math.PI;
 
-    private static BiFunction<Double, Long, Pair<Double, Double>> calculateNextPoint = (rotation, value) -> {
-        double x = Math.cos(rotation) * value;
-        double y = Math.sin(rotation) * value;
-        return new Pair<Double, Double>(x, y);
-    };
+    private final Turtle turtle;
+    private final Pane drawPanel;
 
-    public static Optional<Line> draw(Turtle turtle, OneArgCommand command) {
+    public TurtleController(Turtle turtle, Pane drawPanel) {
+        this.drawPanel = drawPanel;
+        this.turtle = turtle;
+    }
+
+    public Optional<Line> draw(Command command) {
         if (isDrawableMethod(command)) {
-            Pair<Double, Double> nextPoint = linePoint(turtle, command);
-            return generateLine(turtle, nextPoint);
+            return DrawService.draw(turtle, (OneArgCommand) command);
         }
-
+        modifyTurtleState(command);
         return Optional.empty();
     }
 
-    private static boolean isDrawableMethod(OneArgCommand command) {
-        return command.getType().equals(Type.FD) || command.getType().equals(Type.BK);
+    public Turtle getTurtle() {
+        return turtle;
     }
 
-    //TODO
-    private static Pair<Double, Double> linePoint(Turtle turtle, OneArgCommand command) {
+    //TODO: FIX LT/RT
+    private void modifyTurtleState (Command command) {
         switch (command.getType()) {
-            case FD:
-                return calculateNextPoint.apply((double) turtle.getRotation(), command.getArgument());
+            case LT:
+                turtle.setRotation(calculateLTRotation((OneArgCommand) command)); //TODO
+                break;
+            case RT:
+                turtle.setRotation(calculateRTRotation((OneArgCommand) command)); //TODO
+                break;
+            case CS:
+                List<Node> collect = drawPanel.getChildren()
+                        .stream()
+                        .filter(child -> (child instanceof Line)) //TODO
+                        .collect(Collectors.toList());
+                drawPanel.getChildren().removeAll(collect);
+                break;
             default:
-                return calculateNextPoint.apply((double) turtle.getRotation(), (-1) * command.getArgument());
+                System.out.println(";)");
         }
     }
 
-    private static Optional<Line> generateLine(Turtle turtle, Pair<Double, Double> apply) {
-        int turtleLastPositionX = turtle.getX();
-        int turtleLastPositionY = turtle.getY();
-        turtle.setX((int) Math.round(apply.a) + turtleLastPositionX);
-        turtle.setY((int) Math.round(apply.b) + turtleLastPositionY);
+    private int calculateLTRotation(OneArgCommand command) {
+        return (int) ((turtle.getRotation() + Math.toRadians(command.getArgument())) % 2 * Math.PI);
+    }
 
-        return turtle.isDrawable()
-                ? Optional.of(new Line(turtleLastPositionX, turtleLastPositionY, turtle.getX(), turtle.getY()))
-                : Optional.empty();
+    private int calculateRTRotation(OneArgCommand command) {
+        return (int) ((turtle.getRotation() + Math.toRadians(command.getArgument())) % 2 * Math.PI);
+    }
+
+    private static boolean isDrawableMethod(Command command) {
+        return command.getType().equals(Type.FD) || command.getType().equals(Type.BK);
     }
 
 }
