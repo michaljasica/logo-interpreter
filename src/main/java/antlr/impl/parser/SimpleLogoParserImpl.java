@@ -50,6 +50,7 @@ public class SimpleLogoParserImpl {
 
     }
 
+    //TODO: change to List<Command> and fix repeat
     class CmdListener extends SimpleLogoBaseVisitor {
 
         @Override
