@@ -5,7 +5,7 @@ public class Turtle {
     private int x;
     private int y;
     private boolean drawable;
-    private int rotation;
+    private double rotation;
 
     public Turtle(int x, int y, boolean drawable, int rotation) {
         this.x = x;
@@ -38,11 +38,11 @@ public class Turtle {
         this.drawable = drawable;
     }
 
-    public int getRotation() {
+    public double getRotation() {
         return rotation;
     }
 
-    public void setRotation(int rotation) {
+    public void setRotation(double rotation) {
         this.rotation = rotation;
     }
 

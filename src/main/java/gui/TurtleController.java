@@ -40,6 +40,7 @@ public class TurtleController {
     private void modifyTurtleState (Command command) {
         switch (command.getType()) {
             case LT:
+
                 turtle.setRotation(calculateLTRotation((OneArgCommand) command)); //TODO
                 break;
             case RT:
@@ -57,12 +58,13 @@ public class TurtleController {
         }
     }
 
-    private int calculateLTRotation(OneArgCommand command) {
-        return (int) ((turtle.getRotation() + Math.toRadians(command.getArgument())) % 2 * Math.PI);
+    private double calculateLTRotation(OneArgCommand command) {
+        System.out.println(Math.toRadians(command.getArgument()));
+        return turtle.getRotation() + Math.toRadians(command.getArgument());
     }
 
-    private int calculateRTRotation(OneArgCommand command) {
-        return (int) ((turtle.getRotation() + Math.toRadians(command.getArgument())) % 2 * Math.PI);
+    private double calculateRTRotation(OneArgCommand command) {
+        return turtle.getRotation() - Math.toRadians(command.getArgument());
     }
 
     private static boolean isDrawableMethod(Command command) {
