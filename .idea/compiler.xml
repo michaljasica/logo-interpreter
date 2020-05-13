@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="Kompilatory-Logo" />
+        <module name="logo-interpreter" />
       </profile>
     </annotationProcessing>
   </component>

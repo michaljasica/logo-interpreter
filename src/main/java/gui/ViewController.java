@@ -6,6 +6,7 @@ import gui.model.Turtle;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
@@ -28,7 +29,7 @@ public class ViewController {
     private Pane draw_panel;
 
     @FXML
-    private Rectangle blue;
+    private ImageView zolw;
 
     @FXML
     private TextArea console;
@@ -40,8 +41,8 @@ public class ViewController {
     public void onCreate() {
         turtleManager = new Turtle(TURTLE_START_X_POSITION, TURTLE_START_Y_POSITION, true, 0);
         turtleController = new TurtleController(turtleManager, draw_panel);
-        blue.setLayoutX(TURTLE_START_X_POSITION);
-        blue.setLayoutY(TURTLE_START_Y_POSITION);
+        zolw.setLayoutX(TURTLE_START_X_POSITION);
+        zolw.setLayoutY(TURTLE_START_Y_POSITION);
         console.setText(">> ");
     }
 
@@ -60,6 +61,12 @@ public class ViewController {
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .collect(Collectors.toList());
+        System.out.println(turtleManager.getX());
+        System.out.println(turtleManager.getY());
+
+        zolw.setX(turtleManager.getX());
+        zolw.setY(turtleManager.getY());
+
         draw_panel.getChildren().addAll(collect);
     }
 
