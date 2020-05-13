@@ -36,15 +36,13 @@ public class TurtleController {
         return turtle;
     }
 
-    //TODO: FIX LT/RT
     private void modifyTurtleState (Command command) {
         switch (command.getType()) {
             case LT:
-
-                turtle.setRotation(calculateLTRotation((OneArgCommand) command)); //TODO
+                turtle.setRotation(calculateLTRotation((OneArgCommand) command));
                 break;
             case RT:
-                turtle.setRotation(calculateRTRotation((OneArgCommand) command)); //TODO
+                turtle.setRotation(calculateRTRotation((OneArgCommand) command));
                 break;
             case CS:
                 List<Node> collect = drawPanel.getChildren()

@@ -30,7 +30,7 @@ public class SimpleLogoParserImpl {
         public List<Command> visitProg(@NotNull SimpleLogoParser.ProgContext ctx) {
             LineListener lineListener = new LineListener();
             return ctx.line().stream()
-                    .map(method -> method.accept(lineListener))
+                    .map(method -> ((List<Command>) method.accept(lineListener)))
                     .flatMap(list -> ((List<Command>)list).stream())
                     .collect(Collectors.toList());
         }
@@ -43,7 +43,7 @@ public class SimpleLogoParserImpl {
         public List<Command> visitLine(@NotNull SimpleLogoParser.LineContext ctx) {
             CmdListener cmdListener = new CmdListener();
             return ctx.cmd().stream()
-                    .map(method -> method.accept(cmdListener))
+                    .map(method -> (List<Command>) method.accept(cmdListener))
                     .flatMap(list -> ((List<Command>)list).stream())
                     .collect(Collectors.toList());
         }
@@ -52,12 +52,12 @@ public class SimpleLogoParserImpl {
 
     //TODO: change to List<Command> and fix repeat
     class CmdListener extends SimpleLogoBaseVisitor {
-
         @Override
         public List<Command> visitCmd(@NotNull SimpleLogoParser.CmdContext ctx) {
             SimpleCommandsListener methodListener = new SimpleCommandsListener();
             List<Command> collect = ctx.children.stream()
-                    .map(method -> ((Command) method.accept(methodListener)))
+                    .map(method -> ((List<Command>) method.accept(methodListener)))
+                    .flatMap(list -> ((List<Command>)list).stream())
                     .collect(Collectors.toList());
             return collect;
         }
