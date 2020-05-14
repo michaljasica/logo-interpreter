@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 public class TurtleService {
 
-    private final static Logger LOGGER = Logger.getLogger(TurtleService.class.getName());
+    private final static Logger LOGGER = Logger.getLogger(ExpressionListener.class.getName());
 
     private final Turtle turtle;
     private final Pane drawPanel;

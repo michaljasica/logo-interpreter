@@ -3,13 +3,7 @@ package gui;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
-import java.util.List;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
-
 public class ConsoleService {
-
-    private final static Logger LOGGER = Logger.getLogger(ConsoleService.class.getName());
 
     private static final String NEW_LINE = "\r\n";
     private static final String COMMAND_LINE_ELEMENT = ">> ";
@@ -26,25 +20,14 @@ public class ConsoleService {
     public String resolveCommands() {
         String command = console.getText();
         String transformedCommand = command.startsWith(COMMAND_LINE_ELEMENT) ? command.substring(2) : command;
-        consoleView.setText(getNewCommandLineText());
-        console.setText(COMMAND_LINE_ELEMENT);
+        printOnConsoleView(transformedCommand);
 
+        console.setText(COMMAND_LINE_ELEMENT);
         return transformedCommand;
     }
 
-    public void doPrintCommands(List<String> commands) {
-        String collect = commands.stream()
-                .collect(Collectors.joining(" "));
-
-        LOGGER.info("PRINTING VALUE: " + collect);
-        String value = printOnConsoleView(collect);
-
-        consoleView.setText(value);
-        console.setText(COMMAND_LINE_ELEMENT);
-    }
-
-    private String printOnConsoleView (String text) {
-        return consoleView.getText() + NEW_LINE + text;
+    private void printOnConsoleView (String newCommand) {
+        consoleView.setText(getNewCommandLineText());
     }
 
     private String getNewCommandLineText() {
