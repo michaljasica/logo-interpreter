@@ -14,8 +14,6 @@ import java.util.stream.Collectors;
 
 public class TurtleController {
 
-    private static final double HALF_PI = Math.PI;
-
     private final Turtle turtle;
     private final Pane drawPanel;
 
@@ -47,9 +45,15 @@ public class TurtleController {
             case CS:
                 List<Node> collect = drawPanel.getChildren()
                         .stream()
-                        .filter(child -> (child instanceof Line)) //TODO
+                        .filter(child -> (child instanceof Line))
                         .collect(Collectors.toList());
                 drawPanel.getChildren().removeAll(collect);
+                break;
+            case PD:
+                turtle.setDrawable(Boolean.TRUE);
+                break;
+            case PU:
+                turtle.setDrawable(Boolean.FALSE);
                 break;
             default:
                 System.out.println(";)");
@@ -57,7 +61,6 @@ public class TurtleController {
     }
 
     private double calculateLTRotation(OneArgCommand command) {
-        System.out.println(Math.toRadians(command.getArgument()));
         return turtle.getRotation() + Math.toRadians(command.getArgument());
     }
 

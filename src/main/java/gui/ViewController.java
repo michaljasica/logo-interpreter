@@ -61,11 +61,9 @@ public class ViewController {
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .collect(Collectors.toList());
-        System.out.println(turtleManager.getX());
-        System.out.println(turtleManager.getY());
 
-        zolw.setX(turtleManager.getX());
-        zolw.setY(turtleManager.getY());
+        zolw.setLayoutX(turtleManager.getX() - 10);
+        zolw.setLayoutY(turtleManager.getY() - 10);
 
         draw_panel.getChildren().addAll(collect);
     }

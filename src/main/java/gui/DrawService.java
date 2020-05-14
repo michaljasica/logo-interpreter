@@ -11,7 +11,6 @@ import java.util.function.BiFunction;
 public class DrawService {
 
     public static Optional<Line> draw(Turtle turtle, OneArgCommand command) {
-        System.out.println(command.toString());
         Pair<Double, Double> nextPoint = linePoint(turtle, command);
         return generateLine(turtle, nextPoint);
     }
@@ -30,17 +29,9 @@ public class DrawService {
     private static BiFunction<Double, Long, Pair<Double, Double>> calculateNextPoint = (rotation, value) -> {
         double x = Math.sin(rotation) * value;
         double y = Math.cos(rotation) * value;
-        System.out.println("x: " + x + "y: " + y + "rotation: " + rotation + "sin: " + Math.sin(Math.toRadians(rotation)) + "cos: " + Math.cos(Math.toRadians(rotation)));
-        return new Pair<>(x, y);
+         return new Pair<>(x, y);
     };
 
-    public static void main(String[] args) {
-        System.out.println(Math.cos(Math.toRadians(90)));
-        System.out.println(Math.sin(Math.toRadians(90)));
-    }
-
-
-    //TODO
     private static Pair<Double, Double> linePoint(Turtle turtle, OneArgCommand command) {
         switch (command.getType()) {
             case FD:

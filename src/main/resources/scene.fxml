@@ -4,30 +4,32 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="549.0" prefWidth="910.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ViewController">
-  <children>
-    <VBox layoutX="14.0" layoutY="14.0" prefHeight="519.0" prefWidth="878.0">
-      <children>
-        <Pane fx:id="draw_panel" prefHeight="378.0" prefWidth="879.0" style="-fx-background-color: white; ">
-               <children>
-            <ImageView id="zolw" fx:id="zolw" fitHeight="26.0" fitWidth="26.0" layoutX="450.0" layoutY="250.0" pickOnBounds="true" preserveRatio="true" smooth="false" visible="true">
-              <image>
-                <Image url="@strzalka.png" />
-              </image>
-            </ImageView>
-               </children>
-        </Pane>
-        <HBox prefHeight="138.0" prefWidth="878.0">
-          <children>
-            <TextArea fx:id="console" prefHeight="116.0" prefWidth="679.0" />
-            <AnchorPane prefHeight="200.0" prefWidth="200.0">
-              <children>
-                <Button fx:id="enter" layoutX="74.0" layoutY="54.0" mnemonicParsing="false" onAction="#submit" text="Button" />
-              </children>
-            </AnchorPane>
-          </children>
-        </HBox>
-      </children>
-    </VBox>
-  </children>
+<AnchorPane prefHeight="549.0" prefWidth="910.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ViewController">
+    <children>
+        <VBox layoutX="14.0" layoutY="14.0" prefHeight="519.0" prefWidth="878.0">
+            <children>
+                <Pane fx:id="draw_panel" prefHeight="378.0" prefWidth="879.0" style="-fx-background-color: white; ">
+                    <ImageView id="zolw" fx:id="zolw" fitHeight="26.0" fitWidth="26.0" layoutX="450.0"
+                               layoutY="250.0" pickOnBounds="true" preserveRatio="true" smooth="false"
+                               visible="true">
+                        <image>
+                            <Image url="@strzalka.png"/>
+                        </image>
+                    </ImageView>
+                </Pane>
+                <HBox prefHeight="138.0" prefWidth="878.0">
+                    <children>
+                        <TextArea fx:id="console" prefHeight="116.0" prefWidth="679.0"/>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                            <children>
+                                <Button fx:id="enter" layoutX="74.0" layoutY="54.0" mnemonicParsing="false"
+                                        onAction="#submit" text="Button"/>
+                            </children>
+                        </AnchorPane>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
 </AnchorPane>
