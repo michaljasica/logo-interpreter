@@ -5,6 +5,7 @@ import command.OneArgCommand;
 import command.Type;
 import gui.model.Turtle;
 import javafx.scene.Node;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
 
@@ -16,10 +17,12 @@ public class TurtleController {
 
     private final Turtle turtle;
     private final Pane drawPanel;
+    private final ImageView zolw;
 
-    public TurtleController(Turtle turtle, Pane drawPanel) {
+    public TurtleController(Turtle turtle, Pane drawPanel, ImageView zolw) {
         this.drawPanel = drawPanel;
         this.turtle = turtle;
+        this.zolw = zolw;
     }
 
     public Optional<Line> draw(Command command) {
@@ -37,10 +40,14 @@ public class TurtleController {
     private void modifyTurtleState (Command command) {
         switch (command.getType()) {
             case LT:
-                turtle.setRotation(calculateLTRotation((OneArgCommand) command));
+                double ltRotation = calculateLTRotation((OneArgCommand) command);
+                turtle.setRotation(ltRotation);
+                zolw.setRotate((-1) * Math.toDegrees(ltRotation));
                 break;
             case RT:
-                turtle.setRotation(calculateRTRotation((OneArgCommand) command));
+                double rtRotation = calculateRTRotation((OneArgCommand) command);
+                turtle.setRotation(rtRotation);
+                zolw.setRotate((-1) * Math.toDegrees(rtRotation));
                 break;
             case CS:
                 List<Node> collect = drawPanel.getChildren()
@@ -54,6 +61,15 @@ public class TurtleController {
                 break;
             case PU:
                 turtle.setDrawable(Boolean.FALSE);
+                break;
+            case HT:
+                zolw.setVisible(Boolean.FALSE);
+                break;
+            case ST:
+                zolw.setVisible(Boolean.TRUE);
+                break;
+            case HOME:
+                turtle.setHome();
                 break;
             default:
                 System.out.println(";)");

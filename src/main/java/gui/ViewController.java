@@ -16,8 +16,6 @@ import java.util.stream.Collectors;
 
 public class ViewController {
 
-    private static int TURTLE_START_X_POSITION = 450;
-    private static int TURTLE_START_Y_POSITION = 250;
     private static final String NEW_LINE = "\r\n";
     private static final String COMMAND_LINE_ELEMENT = ">> ";
 
@@ -39,10 +37,8 @@ public class ViewController {
 
     public void onCreate(SimpleLogoParserImpl simpleLogoParser) {
         this.simpleLogoParser = simpleLogoParser;
-        this.turtleManager = new Turtle(TURTLE_START_X_POSITION, TURTLE_START_Y_POSITION, true, 0);
-        this.turtleController = new TurtleController(turtleManager, draw_panel);
-        zolw.setLayoutX(TURTLE_START_X_POSITION);
-        zolw.setLayoutY(TURTLE_START_Y_POSITION);
+        this.turtleManager = new Turtle(true, 0);
+        this.turtleController = new TurtleController(turtleManager, draw_panel, zolw);
         console.setText(">> ");
     }
 

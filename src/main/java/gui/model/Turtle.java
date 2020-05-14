@@ -2,14 +2,17 @@ package gui.model;
 
 public class Turtle {
 
+    private static int TURTLE_START_X_POSITION = 450;
+    private static int TURTLE_START_Y_POSITION = 250;
+
     private int x;
     private int y;
     private boolean drawable;
     private double rotation;
 
-    public Turtle(int x, int y, boolean drawable, int rotation) {
-        this.x = x;
-        this.y = y;
+    public Turtle(boolean drawable, int rotation) {
+        this.x = TURTLE_START_X_POSITION;
+        this.y = TURTLE_START_Y_POSITION;
         this.drawable = drawable;
         this.rotation = rotation;
     }
@@ -44,6 +47,12 @@ public class Turtle {
 
     public void setRotation(double rotation) {
         this.rotation = rotation;
+    }
+
+    public void setHome() {
+        this.x = TURTLE_START_X_POSITION;
+        this.y = TURTLE_START_Y_POSITION;
+        this.rotation = 0;
     }
 
 }
