@@ -22,6 +22,7 @@ public class SimpleCommandsListener extends SimpleLogoBaseVisitor {
         Long accept = (Long) ctx.expression().accept(expressionListener);
         return Collections.singletonList(new OneArgCommand(Type.FD, accept));
     }
+
     @Override
     public List<OneArgCommand> visitBk(SimpleLogoParser.BkContext ctx) {
         Long accept = (Long) ctx.expression().accept(expressionListener);

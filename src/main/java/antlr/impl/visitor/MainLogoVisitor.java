@@ -3,19 +3,21 @@ package antlr.impl.visitor;
 import antlr.generated.SimpleLogoBaseVisitor;
 import antlr.generated.SimpleLogoLexer;
 import antlr.generated.SimpleLogoParser;
-import antlr.impl.visitor.SimpleCommandsListener;
 import command.Command;
 import org.antlr.v4.runtime.*;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class SimpleLogoParserImpl extends SimpleLogoBaseVisitor {
+public class MainLogoVisitor extends SimpleLogoBaseVisitor {
 
     private final SimpleCommandsListener simpleCommandsListener;
+    private final PrintVisitor printVisitor;
 
-    public SimpleLogoParserImpl(SimpleCommandsListener simpleCommandsListener) {
+    public MainLogoVisitor(SimpleCommandsListener simpleCommandsListener, PrintVisitor printVisitor) {
         this.simpleCommandsListener = simpleCommandsListener;
+        this.printVisitor = printVisitor;
     }
 
     public List<Command> parse(String input) {
@@ -38,7 +40,7 @@ public class SimpleLogoParserImpl extends SimpleLogoBaseVisitor {
 
     @Override
     public List<Command> visitLine(SimpleLogoParser.LineContext ctx) {
-        return ctx.cmd().stream()
+        return ctx.children.stream()
                 .map(method -> (List<Command>) method.accept(this))
                 .flatMap(list -> ((List<Command>) list).stream())
                 .collect(Collectors.toList());
@@ -51,6 +53,12 @@ public class SimpleLogoParserImpl extends SimpleLogoBaseVisitor {
                 .flatMap(list -> ((List<Command>) list).stream())
                 .collect(Collectors.toList());
         return collect;
+    }
+
+    @Override
+    public List<Command> visitPrint(SimpleLogoParser.PrintContext ctx) {
+        Command accept = (Command) ctx.value().accept(printVisitor);
+        return Collections.singletonList(accept);
     }
 
 }

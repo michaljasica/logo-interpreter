@@ -1,7 +1,9 @@
 
-import antlr.impl.visitor.SimpleLogoParserImpl;
+import antlr.impl.visitor.MainLogoVisitor;
 import antlr.impl.visitor.ExpressionListener;
+import antlr.impl.visitor.PrintVisitor;
 import antlr.impl.visitor.SimpleCommandsListener;
+import command.Command;
 import gui.ViewController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -9,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.application.Application;
 
+import java.util.List;
 import java.io.IOException;
 
 public class Main extends Application {
@@ -25,8 +28,9 @@ public class Main extends Application {
         ViewController controller = (ViewController)loader.getController();
 
         ExpressionListener expressionListener = new ExpressionListener();
+        PrintVisitor printVisitor = new PrintVisitor(expressionListener);
         SimpleCommandsListener simpleCommandsListener = new SimpleCommandsListener(expressionListener);
-        SimpleLogoParserImpl simpleLogoParser = new SimpleLogoParserImpl(simpleCommandsListener);
+        MainLogoVisitor simpleLogoParser = new MainLogoVisitor(simpleCommandsListener, printVisitor);
 
         controller.onCreate(simpleLogoParser);
 
@@ -39,11 +43,12 @@ public class Main extends Application {
 //    public void start(Stage stage) throws Exception {
 //
 //        ExpressionListener expressionListener = new ExpressionListener();
+//        PrintVisitor printVisitor = new PrintVisitor(expressionListener);
 //        SimpleCommandsListener simpleCommandsListener = new SimpleCommandsListener(expressionListener);
-//        SimpleLogoParserImpl simpleLogoParser = new SimpleLogoParserImpl(simpleCommandsListener);
+//        MainLogoVisitor simpleLogoParser = new MainLogoVisitor(simpleCommandsListener, printVisitor);
 //
 //        List<Command> parse = simpleLogoParser
-//                .parse("repeat 2 [rt 100 + 50]\r\n");
+//                .parse("print 100 + 50\r\n");
 //
 //        System.out.println("DONE");
 //    }
