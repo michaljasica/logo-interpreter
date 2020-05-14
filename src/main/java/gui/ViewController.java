@@ -1,7 +1,9 @@
 package gui;
 
-import antlr.impl.visitor.SimpleLogoParserImpl;
+import antlr.impl.visitor.MainLogoVisitor;
 import command.Command;
+import command.PrintCommand;
+import command.Type;
 import gui.model.Turtle;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -13,12 +15,13 @@ import javafx.scene.shape.Line;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class ViewController {
 
+    private final static Logger LOGGER = Logger.getLogger(ViewController.class.getName());
     private static final String NEW_LINE = "\r\n";
-    private static final String COMMAND_LINE_ELEMENT = ">> ";
 
     @FXML
     private Button enter;
@@ -35,12 +38,12 @@ public class ViewController {
     @FXML
     private TextField console;
 
-    private SimpleLogoParserImpl simpleLogoParser;
+    private MainLogoVisitor simpleLogoParser;
     private Turtle turtle;
     private TurtleService turtleService;
     private ConsoleService consoleService;
 
-    public void onCreate(SimpleLogoParserImpl simpleLogoParser) {
+    public void onCreate(MainLogoVisitor simpleLogoParser) {
         this.simpleLogoParser = simpleLogoParser;
         this.consoleService = new ConsoleService(consoleView, console);
         this.turtle = new Turtle(true, 0);
@@ -54,7 +57,17 @@ public class ViewController {
     }
 
     private void draw(List<Command> parse) {
+        List<String> consolePrintCommands = parse.stream()
+                .filter(command -> {
+                    LOGGER.info(command.getType().toString() + " " + ((PrintCommand)command).getText());
+                    return Type.PRINT.equals(command.getType());
+                })
+                .map(command -> ((PrintCommand)command).getText())
+                .collect(Collectors.toList());
+        consoleService.doPrintCommands(consolePrintCommands);
+
         List<Line> collect = parse.stream()
+                .filter(command -> !Type.PRINT.equals(command.getType()))
                 .map(x -> turtleService.draw(x))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
