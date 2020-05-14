@@ -1,11 +1,12 @@
 package gui;
 
-import antlr.impl.parser.SimpleLogoParserImpl;
+import antlr.impl.visitor.SimpleLogoParserImpl;
 import command.Command;
 import gui.model.Turtle;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
@@ -26,46 +27,43 @@ public class ViewController {
     private Pane draw_panel;
 
     @FXML
-    private ImageView zolw;
+    private ImageView turtleImage;
 
     @FXML
-    private TextArea console;
+    private TextArea consoleView;
+
+    @FXML
+    private TextField console;
 
     private SimpleLogoParserImpl simpleLogoParser;
-    private Turtle turtleManager;
-    private TurtleController turtleController;
+    private Turtle turtle;
+    private TurtleService turtleService;
+    private ConsoleService consoleService;
 
     public void onCreate(SimpleLogoParserImpl simpleLogoParser) {
         this.simpleLogoParser = simpleLogoParser;
-        this.turtleManager = new Turtle(true, 0);
-        this.turtleController = new TurtleController(turtleManager, draw_panel, zolw);
-        console.setText(">> ");
+        this.consoleService = new ConsoleService(consoleView, console);
+        this.turtle = new Turtle(true, 0);
+        this.turtleService = new TurtleService(turtle, draw_panel, turtleImage);
     }
 
     public void submit() {
-        String[] split = console.getText()
-                .split(">> ");
-        String text = split[split.length - 1];
-        List<Command> parse = simpleLogoParser.parse(text + NEW_LINE);
-        console.setText(getNewCommandLineText());
+        String commands = consoleService.resolveCommands();
+        List<Command> parse = simpleLogoParser.parse(commands + NEW_LINE);
         draw(parse);
     }
 
     private void draw(List<Command> parse) {
         List<Line> collect = parse.stream()
-                .map(x -> turtleController.draw(x))
+                .map(x -> turtleService.draw(x))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .collect(Collectors.toList());
 
-        zolw.setLayoutX(turtleManager.getX() - 10);
-        zolw.setLayoutY(turtleManager.getY() - 10);
+        turtleImage.setLayoutX(turtle.getX() - 10);
+        turtleImage.setLayoutY(turtle.getY() - 10);
 
         draw_panel.getChildren().addAll(collect);
-    }
-
-    private String getNewCommandLineText() {
-        return console.getText() + NEW_LINE + COMMAND_LINE_ELEMENT;
     }
 
 }

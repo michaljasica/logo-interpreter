@@ -1,4 +1,4 @@
-package antlr.impl.visitor;
+package antlr.impl.util;
 
 import command.Command;
 

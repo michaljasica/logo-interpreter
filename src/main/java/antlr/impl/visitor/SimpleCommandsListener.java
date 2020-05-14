@@ -2,6 +2,7 @@ package antlr.impl.visitor;
 
 import antlr.generated.SimpleLogoBaseVisitor;
 import antlr.generated.SimpleLogoParser;
+import antlr.impl.util.RepeatHelper;
 import command.*;
 
 import java.util.Collections;

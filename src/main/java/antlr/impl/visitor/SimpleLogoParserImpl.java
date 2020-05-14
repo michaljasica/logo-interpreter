@@ -1,4 +1,4 @@
-package antlr.impl.parser;
+package antlr.impl.visitor;
 
 import antlr.generated.SimpleLogoBaseVisitor;
 import antlr.generated.SimpleLogoLexer;

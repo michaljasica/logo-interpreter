@@ -1,8 +1,7 @@
 
-import antlr.impl.parser.SimpleLogoParserImpl;
+import antlr.impl.visitor.SimpleLogoParserImpl;
 import antlr.impl.visitor.ExpressionListener;
 import antlr.impl.visitor.SimpleCommandsListener;
-import command.Command;
 import gui.ViewController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -11,7 +10,6 @@ import javafx.stage.Stage;
 import javafx.application.Application;
 
 import java.io.IOException;
-import java.util.List;
 
 public class Main extends Application {
 

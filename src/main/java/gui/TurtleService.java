@@ -1,5 +1,6 @@
 package gui;
 
+import antlr.impl.visitor.ExpressionListener;
 import command.Command;
 import command.OneArgCommand;
 import command.Type;
@@ -11,18 +12,21 @@ import javafx.scene.shape.Line;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-public class TurtleController {
+public class TurtleService {
+
+    private final static Logger LOGGER = Logger.getLogger(ExpressionListener.class.getName());
 
     private final Turtle turtle;
     private final Pane drawPanel;
-    private final ImageView zolw;
+    private final ImageView turtleImage;
 
-    public TurtleController(Turtle turtle, Pane drawPanel, ImageView zolw) {
+    public TurtleService(Turtle turtle, Pane drawPanel, ImageView turtleImage) {
         this.drawPanel = drawPanel;
         this.turtle = turtle;
-        this.zolw = zolw;
+        this.turtleImage = turtleImage;
     }
 
     public Optional<Line> draw(Command command) {
@@ -42,12 +46,12 @@ public class TurtleController {
             case LT:
                 double ltRotation = calculateLTRotation((OneArgCommand) command);
                 turtle.setRotation(ltRotation);
-                zolw.setRotate((-1) * Math.toDegrees(ltRotation));
+                turtleImage.setRotate((-1) * Math.toDegrees(ltRotation));
                 break;
             case RT:
                 double rtRotation = calculateRTRotation((OneArgCommand) command);
                 turtle.setRotation(rtRotation);
-                zolw.setRotate((-1) * Math.toDegrees(rtRotation));
+                turtleImage.setRotate((-1) * Math.toDegrees(rtRotation));
                 break;
             case CS:
                 List<Node> collect = drawPanel.getChildren()
@@ -63,16 +67,16 @@ public class TurtleController {
                 turtle.setDrawable(Boolean.FALSE);
                 break;
             case HT:
-                zolw.setVisible(Boolean.FALSE);
+                turtleImage.setVisible(Boolean.FALSE);
                 break;
             case ST:
-                zolw.setVisible(Boolean.TRUE);
+                turtleImage.setVisible(Boolean.TRUE);
                 break;
             case HOME:
                 turtle.setHome();
                 break;
             default:
-                System.out.println(";)");
+                LOGGER.info("Command not handled!");
         }
     }
 
