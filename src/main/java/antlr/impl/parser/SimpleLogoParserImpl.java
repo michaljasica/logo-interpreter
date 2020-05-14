@@ -3,15 +3,20 @@ package antlr.impl.parser;
 import antlr.generated.SimpleLogoBaseVisitor;
 import antlr.generated.SimpleLogoLexer;
 import antlr.generated.SimpleLogoParser;
-import antlr.impl.listener.SimpleCommandsListener;
+import antlr.impl.visitor.SimpleCommandsListener;
 import command.Command;
 import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.misc.NotNull;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class SimpleLogoParserImpl {
+public class SimpleLogoParserImpl extends SimpleLogoBaseVisitor {
+
+    private final SimpleCommandsListener simpleCommandsListener;
+
+    public SimpleLogoParserImpl(SimpleCommandsListener simpleCommandsListener) {
+        this.simpleCommandsListener = simpleCommandsListener;
+    }
 
     public List<Command> parse(String input) {
         CharStream charStream = new ANTLRInputStream(input);
@@ -20,47 +25,32 @@ public class SimpleLogoParserImpl {
         SimpleLogoParser logoParser = new SimpleLogoParser(commonTokenStream);
 
         SimpleLogoParser.ProgContext prog = logoParser.prog();
-        return new ClassListener()
-                .visitProg(prog);
+        return visitProg(prog);
     }
 
-    class ClassListener extends SimpleLogoBaseVisitor {
-
-        @Override
-        public List<Command> visitProg(@NotNull SimpleLogoParser.ProgContext ctx) {
-            LineListener lineListener = new LineListener();
-            return ctx.line().stream()
-                    .map(method -> ((List<Command>) method.accept(lineListener)))
-                    .flatMap(list -> ((List<Command>)list).stream())
-                    .collect(Collectors.toList());
-        }
-
+    @Override
+    public List<Command> visitProg(SimpleLogoParser.ProgContext ctx) {
+        return ctx.line().stream()
+                .map(method -> ((List<Command>) method.accept(this)))
+                .flatMap(list -> ((List<Command>) list).stream())
+                .collect(Collectors.toList());
     }
 
-    class LineListener extends SimpleLogoBaseVisitor {
-
-        @Override
-        public List<Command> visitLine(@NotNull SimpleLogoParser.LineContext ctx) {
-            CmdListener cmdListener = new CmdListener();
-            return ctx.cmd().stream()
-                    .map(method -> (List<Command>) method.accept(cmdListener))
-                    .flatMap(list -> ((List<Command>)list).stream())
-                    .collect(Collectors.toList());
-        }
-
+    @Override
+    public List<Command> visitLine(SimpleLogoParser.LineContext ctx) {
+        return ctx.cmd().stream()
+                .map(method -> (List<Command>) method.accept(this))
+                .flatMap(list -> ((List<Command>) list).stream())
+                .collect(Collectors.toList());
     }
 
-    //TODO: change to List<Command> and fix repeat
-    class CmdListener extends SimpleLogoBaseVisitor {
-        @Override
-        public List<Command> visitCmd(@NotNull SimpleLogoParser.CmdContext ctx) {
-            SimpleCommandsListener methodListener = new SimpleCommandsListener();
-            List<Command> collect = ctx.children.stream()
-                    .map(method -> ((List<Command>) method.accept(methodListener)))
-                    .flatMap(list -> ((List<Command>)list).stream())
-                    .collect(Collectors.toList());
-            return collect;
-        }
+    @Override
+    public List<Command> visitCmd(SimpleLogoParser.CmdContext ctx) {
+        List<Command> collect = ctx.children.stream()
+                .map(method -> ((List<Command>) method.accept(simpleCommandsListener)))
+                .flatMap(list -> ((List<Command>) list).stream())
+                .collect(Collectors.toList());
+        return collect;
     }
 
 }

@@ -9,7 +9,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
-import javafx.scene.shape.Rectangle;
 
 import java.util.List;
 import java.util.Optional;
@@ -34,13 +33,14 @@ public class ViewController {
     @FXML
     private TextArea console;
 
-    private SimpleLogoParserImpl simpleLogoParser = new SimpleLogoParserImpl();
+    private SimpleLogoParserImpl simpleLogoParser;
     private Turtle turtleManager;
     private TurtleController turtleController;
 
-    public void onCreate() {
-        turtleManager = new Turtle(TURTLE_START_X_POSITION, TURTLE_START_Y_POSITION, true, 0);
-        turtleController = new TurtleController(turtleManager, draw_panel);
+    public void onCreate(SimpleLogoParserImpl simpleLogoParser) {
+        this.simpleLogoParser = simpleLogoParser;
+        this.turtleManager = new Turtle(TURTLE_START_X_POSITION, TURTLE_START_Y_POSITION, true, 0);
+        this.turtleController = new TurtleController(turtleManager, draw_panel);
         zolw.setLayoutX(TURTLE_START_X_POSITION);
         zolw.setLayoutY(TURTLE_START_Y_POSITION);
         console.setText(">> ");

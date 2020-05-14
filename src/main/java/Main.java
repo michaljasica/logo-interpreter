@@ -1,4 +1,8 @@
 
+import antlr.impl.parser.SimpleLogoParserImpl;
+import antlr.impl.visitor.ExpressionListener;
+import antlr.impl.visitor.SimpleCommandsListener;
+import command.Command;
 import gui.ViewController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -7,6 +11,7 @@ import javafx.stage.Stage;
 import javafx.application.Application;
 
 import java.io.IOException;
+import java.util.List;
 
 public class Main extends Application {
 
@@ -20,11 +25,29 @@ public class Main extends Application {
         Parent root = (Parent)loader.load();
         Scene scene = new Scene(root, 300, 275);
         ViewController controller = (ViewController)loader.getController();
-        controller.onCreate();
+
+        ExpressionListener expressionListener = new ExpressionListener();
+        SimpleCommandsListener simpleCommandsListener = new SimpleCommandsListener(expressionListener);
+        SimpleLogoParserImpl simpleLogoParser = new SimpleLogoParserImpl(simpleCommandsListener);
+
+        controller.onCreate(simpleLogoParser);
 
         stage.setTitle("FXML Welcome");
         stage.setScene(scene);
         stage.show();
     }
+
+//    @Override
+//    public void start(Stage stage) throws Exception {
+//
+//        ExpressionListener expressionListener = new ExpressionListener();
+//        SimpleCommandsListener simpleCommandsListener = new SimpleCommandsListener(expressionListener);
+//        SimpleLogoParserImpl simpleLogoParser = new SimpleLogoParserImpl(simpleCommandsListener);
+//
+//        List<Command> parse = simpleLogoParser
+//                .parse("repeat 2 [rt 100 + 50]\r\n");
+//
+//        System.out.println("DONE");
+//    }
 
 }

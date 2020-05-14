@@ -1,4 +1,4 @@
-package antlr.impl.listener;
+package antlr.impl.visitor;
 
 import antlr.generated.SimpleLogoBaseVisitor;
 import antlr.generated.SimpleLogoParser;
@@ -7,11 +7,14 @@ import command.*;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class SimpleCommandsListener extends SimpleLogoBaseVisitor {
 
-    private ExpressionListener expressionListener = new ExpressionListener();
+    private final ExpressionListener expressionListener;
+
+    public SimpleCommandsListener(ExpressionListener expressionListener) {
+        this.expressionListener = expressionListener;
+    }
 
     @Override
     public List<OneArgCommand> visitFd(SimpleLogoParser.FdContext ctx) {
@@ -79,14 +82,14 @@ public class SimpleCommandsListener extends SimpleLogoBaseVisitor {
     @Override
     public List<Command> visitRepeat(SimpleLogoParser.RepeatContext ctx) {
         Long expressionValue = (Long) ctx.expression().accept(expressionListener);
-        return (List<Command>) ctx.block().accept(this);
+        List<Command> commands = (List<Command>) ctx.block().accept(this);
+        return RepeatHelper.convertToCommandList(commands, expressionValue.intValue());
     }
 
     @Override
     public List<Command> visitBlock(SimpleLogoParser.BlockContext ctx) {
-        SimpleCommandsListener methodListener = new SimpleCommandsListener();
         return ctx.cmd().stream()
-                .flatMap(cmd -> ((List<Command>) cmd.accept(methodListener)).stream())
+                .flatMap(cmd -> ((List<Command>) cmd.accept(this)).stream())
                 .collect(Collectors.toList());
     }
 
