@@ -58,19 +58,14 @@ public class ViewController {
 
     private void draw(List<Command> parse) {
         List<String> consolePrintCommands = parse.stream()
-                .filter(command -> {
-                    LOGGER.info(command.getType().toString() + " " + ((PrintCommand)command).getText());
-                    return Type.PRINT.equals(command.getType());
-                })
+                .filter(command -> Type.PRINT.equals(command.getType()))
                 .map(command -> ((PrintCommand)command).getText())
                 .collect(Collectors.toList());
         consoleService.doPrintCommands(consolePrintCommands);
 
         List<Line> collect = parse.stream()
                 .filter(command -> !Type.PRINT.equals(command.getType()))
-                .map(x -> turtleService.draw(x))
-                .filter(Optional::isPresent)
-                .map(Optional::get)
+                .flatMap(x -> turtleService.draw(x).stream())
                 .collect(Collectors.toList());
 
         turtleImage.setLayoutX(turtle.getX() - 10);

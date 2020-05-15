@@ -10,6 +10,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -29,12 +30,12 @@ public class TurtleService {
         this.turtleImage = turtleImage;
     }
 
-    public Optional<Line> draw(Command command) {
+    public List<Line> draw(Command command) {
         if (isDrawableMethod(command)) {
-            return DrawService.draw(turtle, (OneArgCommand) command);
+            return DrawService.draw(turtle, drawPanel, (OneArgCommand) command);
         }
         modifyTurtleState(command);
-        return Optional.empty();
+        return Collections.emptyList();
     }
 
     public Turtle getTurtle() {
