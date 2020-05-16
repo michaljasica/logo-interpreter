@@ -47,12 +47,12 @@ public class TurtleService {
             case LT:
                 double ltRotation = calculateLTRotation((OneArgCommand) command);
                 turtle.setRotation(ltRotation);
-                turtleImage.setRotate((-1) * Math.toDegrees(ltRotation));
+                turtleImage.setRotate(Math.toDegrees(ltRotation));
                 break;
             case RT:
                 double rtRotation = calculateRTRotation((OneArgCommand) command);
                 turtle.setRotation(rtRotation);
-                turtleImage.setRotate((-1) * Math.toDegrees(rtRotation));
+                turtleImage.setRotate(Math.toDegrees(rtRotation));
                 break;
             case CS:
                 List<Node> collect = drawPanel.getChildren()
@@ -82,11 +82,11 @@ public class TurtleService {
     }
 
     private double calculateLTRotation(OneArgCommand command) {
-        return turtle.getRotation() + Math.toRadians(command.getArgument());
+        return turtle.getRotation() - Math.toRadians(command.getArgument());
     }
 
     private double calculateRTRotation(OneArgCommand command) {
-        return turtle.getRotation() - Math.toRadians(command.getArgument());
+        return turtle.getRotation() + Math.toRadians(command.getArgument());
     }
 
     private static boolean isDrawableMethod(Command command) {

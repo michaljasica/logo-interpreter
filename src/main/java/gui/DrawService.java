@@ -34,11 +34,56 @@ public class DrawService {
     }
 
     private static void newTurtlePosition(Turtle turtle, MaxValue maxValue, Pane drawPanel) {
+        double rotation = turtle.getRotation() % (2 * Math.PI);
+
         if (maxValue.getAxis().equals("x")) {
-            turtle.setX(0);
+
+            if ((rotation >= 0 && rotation <= Math.toRadians(90)) || (rotation <= Math.toRadians(-270) && rotation >= Math.toRadians(-360))) {
+                turtle.setX(0);
+            }
+
+            if ((rotation >= Math.toRadians(-90) && rotation <= Math.toRadians(0)) || (rotation <= Math.toRadians(360) && rotation >= Math.toRadians(270))) {
+                turtle.setX((int) drawPanel.getWidth());
+            }
+
+            if ((rotation >= Math.toRadians(180) && rotation <= Math.toRadians(270)) || (rotation <= Math.toRadians(-90) && rotation >= Math.toRadians(-180))) {
+                turtle.setX((int) drawPanel.getWidth());
+            }
+
+            if ((rotation >= Math.toRadians(90) && rotation <= Math.toRadians(180)) || (rotation <= Math.toRadians(-180) && rotation >= Math.toRadians(-270))) {
+                turtle.setX(0);
+            }
+
+
         } else {
-            turtle.setY((int) drawPanel.getHeight());
+
+            if ((rotation >= 0 && rotation <= Math.toRadians(90)) || (rotation <= Math.toRadians(-270) && rotation >= Math.toRadians(-360))) {
+                turtle.setY((int) drawPanel.getHeight());
+            }
+
+            if ((rotation >= Math.toRadians(-90) && rotation <= Math.toRadians(0)) || (rotation <= Math.toRadians(360) && rotation >= Math.toRadians(270))) {
+                turtle.setY((int) drawPanel.getHeight());
+            }
+
+            if ((rotation >= Math.toRadians(180) && rotation <= Math.toRadians(270)) || (rotation <= Math.toRadians(-90) && rotation >= Math.toRadians(-180))) {
+                turtle.setY(0);
+            }
+
+            if ((rotation >= Math.toRadians(90) && rotation <= Math.toRadians(180)) || (rotation <= Math.toRadians(-180) && rotation >= Math.toRadians(-270))) {
+                turtle.setY(0);
+            }
+
         }
+    }
+
+    private static boolean rightXaxis(Turtle turtle) {
+        double rotation = turtle.getRotation() % Math.PI;
+        return rotation >= Math.toRadians(0) && rotation <= Math.toRadians(180);
+    }
+
+    private static boolean upYaxis(Turtle turtle) {
+        double rotation = turtle.getRotation() % Math.PI;
+        return rotation >= Math.toRadians(0) && rotation <= Math.toRadians(90);
     }
 
     private static List<Line> generateLine(Turtle turtle, Pane drawPanel, Pair<Double, Double> apply) {
@@ -60,9 +105,9 @@ public class DrawService {
     private static Pair<Double, Double> linePoint(Turtle turtle, OneArgCommand command) {
         switch (command.getType()) {
             case FD:
-                return calculateNextPoint.apply(turtle.getRotation(), command.getArgument());
+                return calculateNextPoint.apply((-1) * turtle.getRotation(), command.getArgument());
             default:
-                return calculateNextPoint.apply(turtle.getRotation(), (-1) * command.getArgument());
+                return calculateNextPoint.apply((-1) * turtle.getRotation(), (-1) * command.getArgument());
         }
     }
 
@@ -82,8 +127,34 @@ public class DrawService {
     };
 
     private static BiFunction<Turtle, Pane, MaxValue> calculateMaxVal = (turtle, drawPanel) -> {
-        double x = Math.abs((drawPanel.getWidth() - turtle.getX()) / Math.sin(turtle.getRotation()));
-        double y = Math.abs(turtle.getY() / Math.cos(turtle.getRotation()));
+        double x = 0;
+        double y = 0;
+        double rotation = turtle.getRotation() % (2 * Math.PI);
+
+        // I quarter
+        if ((rotation >= 0 && rotation <= Math.toRadians(90)) || (rotation <= Math.toRadians(-270) && rotation >= Math.toRadians(-360))) {
+            x = Math.abs((drawPanel.getWidth() - turtle.getX()) / Math.sin(turtle.getRotation()));
+            y = Math.abs(turtle.getY() / Math.cos(turtle.getRotation()));
+        }
+
+        // II quarter
+        if ((rotation >= Math.toRadians(-90) && rotation <= Math.toRadians(0)) || (rotation <= Math.toRadians(360) && rotation >= Math.toRadians(270))) {
+            x = Math.abs(turtle.getX()/ Math.sin(turtle.getRotation()));
+            y = Math.abs(turtle.getY() / Math.cos(turtle.getRotation()));
+        }
+
+        // III quarter
+        if ((rotation >= Math.toRadians(180) && rotation <= Math.toRadians(270)) || (rotation <= Math.toRadians(-90) && rotation >= Math.toRadians(-180))) {
+            x = Math.abs(turtle.getX() / Math.sin(turtle.getRotation()));
+            y = Math.abs(Math.abs(drawPanel.getHeight() - turtle.getY()) / Math.cos(turtle.getRotation()));
+        }
+
+        // IV quarter
+        if ((rotation >= Math.toRadians(90) && rotation <= Math.toRadians(180)) || (rotation <= Math.toRadians(-180) && rotation >= Math.toRadians(-270))) {
+            x = Math.abs((drawPanel.getWidth() - turtle.getX()) / Math.sin(turtle.getRotation()));
+            y = Math.abs(Math.abs(drawPanel.getHeight() - turtle.getY()) / Math.cos(turtle.getRotation()));
+        }
+
         return x < y ? new MaxValue("x", x) :  new MaxValue("y", y);
     };
 
