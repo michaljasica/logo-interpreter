@@ -76,16 +76,6 @@ public class DrawService {
         }
     }
 
-    private static boolean rightXaxis(Turtle turtle) {
-        double rotation = turtle.getRotation() % Math.PI;
-        return rotation >= Math.toRadians(0) && rotation <= Math.toRadians(180);
-    }
-
-    private static boolean upYaxis(Turtle turtle) {
-        double rotation = turtle.getRotation() % Math.PI;
-        return rotation >= Math.toRadians(0) && rotation <= Math.toRadians(90);
-    }
-
     private static List<Line> generateLine(Turtle turtle, Pane drawPanel, Pair<Double, Double> apply) {
         int turtleLastPositionX = turtle.getX();
         int turtleLastPositionY = turtle.getY();

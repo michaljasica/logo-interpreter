@@ -48,7 +48,7 @@ public class Main extends Application {
 //        MainLogoVisitor simpleLogoParser = new MainLogoVisitor(simpleCommandsListener, printVisitor);
 //
 //        List<Command> parse = simpleLogoParser
-//                .parse("print 100 + 50\r\n");
+//                .parse("make \"done 100\r\n");
 //
 //        System.out.println("DONE");
 //    }

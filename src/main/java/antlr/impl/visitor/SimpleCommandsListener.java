@@ -6,6 +6,7 @@ import antlr.impl.util.RepeatHelper;
 import command.*;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -79,6 +80,14 @@ public class SimpleCommandsListener extends SimpleLogoBaseVisitor {
     @Override
     public List<NoArgCommand> visitLabel(SimpleLogoParser.LabelContext ctx) {
         return Collections.singletonList(new NoArgCommand(Type.LABEL));
+    }
+
+    @Override
+    public List<NoArgCommand> visitMake(SimpleLogoParser.MakeContext ctx) {
+        String name = ctx.STRINGLITERAL().toString().substring(1);
+        String value = (String) ctx.value().accept(expressionListener);
+        expressionListener.getVariableMemory().put(name, value);
+        return Collections.emptyList();
     }
 
     @Override
