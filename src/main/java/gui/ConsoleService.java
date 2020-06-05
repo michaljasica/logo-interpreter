@@ -4,6 +4,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -15,6 +17,7 @@ public class ConsoleService {
     private static final String NEW_LINE = "\r\n";
     private static final String COMMAND_LINE_ELEMENT = ">> ";
 
+    private final List<String> commandMemory = new ArrayList<>();
     private final TextArea consoleView;
     private final TextField console;
     private final Label errorOutput;
@@ -28,6 +31,7 @@ public class ConsoleService {
 
     public String resolveCommands() {
         String command = console.getText();
+        commandMemory.add(command);
         String transformedCommand = command.startsWith(COMMAND_LINE_ELEMENT) ? command.substring(2) : command;
         consoleView.setText(getNewCommandLineText());
         console.setText(COMMAND_LINE_ELEMENT);
@@ -59,7 +63,13 @@ public class ConsoleService {
     }
 
     private String getNewCommandLineText() {
-        return consoleView.getText() + NEW_LINE + console.getText();
+        List<String> preparedList = commandMemory.stream()
+                .sorted(Collections.reverseOrder())
+                .limit(5)
+                .collect(Collectors.toList());
+        Collections.reverse(preparedList);
+        return preparedList.stream()
+                .collect(Collectors.joining(NEW_LINE));
     }
 
 }
