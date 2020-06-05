@@ -7,6 +7,7 @@ import javafx.scene.control.TextField;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -21,6 +22,7 @@ public class ConsoleService {
     private final TextArea consoleView;
     private final TextField console;
     private final Label errorOutput;
+    private Integer iterator = 0;
 
     public ConsoleService(TextArea consoleView, TextField console, Label errorOutput) {
         this.consoleView = consoleView;
@@ -30,6 +32,7 @@ public class ConsoleService {
     }
 
     public String resolveCommands() {
+        iterator = 0;
         String command = console.getText();
         commandMemory.add(command);
         String transformedCommand = command.startsWith(COMMAND_LINE_ELEMENT) ? command.substring(2) : command;
@@ -56,6 +59,39 @@ public class ConsoleService {
 
     public void errorClearOutput() {
         errorOutput.setText("");
+    }
+
+    public void keyUp() {
+        if (commandMemory.size() == 0) {
+            return;
+        }
+
+        iterator++;
+        String s = iterator <= commandMemory.size()
+                ? commandMemory.get(commandMemory.size() - iterator)
+                : null;
+        if (Objects.nonNull(s)) {
+            console.setText(s);
+        } else {
+            iterator = commandMemory.size();
+        }
+    }
+
+    public void keyDown() {
+        if (commandMemory.size() == 0) {
+            return;
+        }
+
+        iterator--;
+        String s = iterator > 0
+                ? commandMemory.get(commandMemory.size() - iterator)
+                : null;
+        if (Objects.nonNull(s)) {
+            console.setText(s);
+        } else {
+            iterator = 0;
+            console.setText(COMMAND_LINE_ELEMENT);
+        }
     }
 
     private String printOnConsoleView (String text) {

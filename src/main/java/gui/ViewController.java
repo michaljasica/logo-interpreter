@@ -52,6 +52,20 @@ public class ViewController {
         this.consoleService = new ConsoleService(consoleView, console, errorOutput);
         this.turtle = new Turtle(true, 0);
         this.turtleService = new TurtleService(turtle, draw_panel, turtleImage);
+
+        console.setOnKeyPressed(event -> {
+            switch (event.getCode()) {
+                case UP:
+                    keyUp();
+                    break;
+                case DOWN:
+                    keyDown();
+                    break;
+                case ENTER:
+                    submit();
+                    break;
+            }
+        });
     }
 
     public void submit() {
@@ -69,7 +83,7 @@ public class ViewController {
     private void draw(List<Command> parse) {
         List<String> consolePrintCommands = parse.stream()
                 .filter(command -> Type.PRINT.equals(command.getType()))
-                .map(command -> ((PrintCommand)command).getText())
+                .map(command -> ((PrintCommand) command).getText())
                 .collect(Collectors.toList());
         consoleService.doPrintCommands(consolePrintCommands);
 
@@ -82,6 +96,14 @@ public class ViewController {
         turtleImage.setLayoutY(turtle.getY() - 10);
 
         draw_panel.getChildren().addAll(collect);
+    }
+
+    public void keyUp() {
+        consoleService.keyUp();
+    }
+
+    public void keyDown() {
+        consoleService.keyDown();
     }
 
 }
