@@ -7,6 +7,7 @@ import command.Type;
 import gui.model.Turtle;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
 public class ViewController {
 
     private final static Logger LOGGER = Logger.getLogger(ViewController.class.getName());
+    private static final String ERROR_MESSAGE = "Nie obsługiwana komenda";
     private static final String NEW_LINE = "\r\n";
 
     @FXML
@@ -37,6 +39,9 @@ public class ViewController {
     @FXML
     private TextField console;
 
+    @FXML
+    private Label errorOutput;
+
     private MainLogoVisitor simpleLogoParser;
     private Turtle turtle;
     private TurtleService turtleService;
@@ -44,15 +49,21 @@ public class ViewController {
 
     public void onCreate(MainLogoVisitor simpleLogoParser) {
         this.simpleLogoParser = simpleLogoParser;
-        this.consoleService = new ConsoleService(consoleView, console);
+        this.consoleService = new ConsoleService(consoleView, console, errorOutput);
         this.turtle = new Turtle(true, 0);
         this.turtleService = new TurtleService(turtle, draw_panel, turtleImage);
     }
 
     public void submit() {
-        String commands = consoleService.resolveCommands();
-        List<Command> parse = simpleLogoParser.parse(commands + NEW_LINE);
-        draw(parse);
+        try {
+            consoleService.errorClearOutput();
+            String commands = consoleService.resolveCommands();
+            List<Command> parse = simpleLogoParser.parse(commands + NEW_LINE);
+            draw(parse);
+        } catch (Exception e) {
+            consoleService.errorOutput(ERROR_MESSAGE);
+            e.printStackTrace();
+        }
     }
 
     private void draw(List<Command> parse) {

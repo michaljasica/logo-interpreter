@@ -1,5 +1,6 @@
 package gui;
 
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
@@ -16,10 +17,12 @@ public class ConsoleService {
 
     private final TextArea consoleView;
     private final TextField console;
+    private final Label errorOutput;
 
-    public ConsoleService(TextArea consoleView, TextField console) {
+    public ConsoleService(TextArea consoleView, TextField console, Label errorOutput) {
         this.consoleView = consoleView;
         this.console = console;
+        this.errorOutput = errorOutput;
         console.setText(COMMAND_LINE_ELEMENT);
     }
 
@@ -41,6 +44,14 @@ public class ConsoleService {
 
         consoleView.setText(value);
         console.setText(COMMAND_LINE_ELEMENT);
+    }
+
+    public void errorOutput(String errorMessage) {
+        errorOutput.setText(errorMessage);
+    }
+
+    public void errorClearOutput() {
+        errorOutput.setText("");
     }
 
     private String printOnConsoleView (String text) {

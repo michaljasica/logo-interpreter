@@ -3,7 +3,6 @@ package antlr.impl.visitor;
 import antlr.generated.SimpleLogoBaseVisitor;
 import antlr.generated.SimpleLogoParser;
 import org.antlr.v4.runtime.RuleContext;
-import org.antlr.v4.runtime.tree.ParseTree;
 import command.Number;
 
 import java.util.*;
@@ -111,7 +110,7 @@ public class ExpressionListener extends SimpleLogoBaseVisitor {
     @Override
     public String visitValue(SimpleLogoParser.ValueContext ctx) {
         return Objects.nonNull(ctx.STRINGLITERAL())
-                ? ctx.STRINGLITERAL().toString()
+                ? ctx.STRINGLITERAL().toString().substring(1)
                 : ctx.children.stream()
                     .map(obj -> obj.accept(this))
                     .map(Object::toString)
