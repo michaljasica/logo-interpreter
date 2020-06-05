@@ -11,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
 
@@ -53,19 +54,21 @@ public class ViewController {
         this.turtle = new Turtle(true, 0);
         this.turtleService = new TurtleService(turtle, draw_panel, turtleImage);
 
-        console.setOnKeyPressed(event -> {
-            switch (event.getCode()) {
-                case UP:
-                    keyUp();
-                    break;
-                case DOWN:
-                    keyDown();
-                    break;
-                case ENTER:
-                    submit();
-                    break;
-            }
-        });
+        console.setOnKeyPressed(this::keyListener);
+    }
+
+    private void keyListener(KeyEvent event) {
+        switch (event.getCode()) {
+            case UP:
+                keyUp();
+                break;
+            case DOWN:
+                keyDown();
+                break;
+            case ENTER:
+                submit();
+                break;
+        }
     }
 
     public void submit() {

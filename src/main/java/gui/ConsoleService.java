@@ -9,7 +9,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.logging.Logger;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ConsoleService {
 
@@ -71,7 +73,7 @@ public class ConsoleService {
                 ? commandMemory.get(commandMemory.size() - iterator)
                 : null;
         if (Objects.nonNull(s)) {
-            console.setText(s);
+            console.setText(s + "");
         } else {
             iterator = commandMemory.size();
         }
@@ -87,25 +89,33 @@ public class ConsoleService {
                 ? commandMemory.get(commandMemory.size() - iterator)
                 : null;
         if (Objects.nonNull(s)) {
-            console.setText(s);
+            console.setText(s + "");
         } else {
             iterator = 0;
             console.setText(COMMAND_LINE_ELEMENT);
         }
     }
 
-    private String printOnConsoleView (String text) {
+    private String printOnConsoleView(String text) {
         return consoleView.getText() + NEW_LINE + text;
     }
 
     private String getNewCommandLineText() {
-        List<String> preparedList = commandMemory.stream()
-                .sorted(Collections.reverseOrder())
+        return commandMemory.stream()
+                .collect(reverseStream())
                 .limit(5)
-                .collect(Collectors.toList());
-        Collections.reverse(preparedList);
-        return preparedList.stream()
+                .collect(reverseStream())
+                .map(o -> (String) o)
                 .collect(Collectors.joining(NEW_LINE));
+    }
+
+    public static <T> Collector<Object, Object, Stream<Object>> reverseStream() {
+        return Collectors
+                .collectingAndThen(Collectors.toList(),
+                        list -> {
+                            Collections.reverse(list);
+                            return list.stream();
+                        });
     }
 
 }
