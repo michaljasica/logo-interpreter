@@ -31,7 +31,7 @@ public class TurtleService {
 
     public List<Line> draw(Command command) {
         if (isDrawableMethod(command)) {
-            return DrawService.draw(turtle, drawPanel, (OneArgCommand) command);
+            return DrawService.draw(turtle, drawPanel, (OneArgCommand) command, true);
         }
         modifyTurtleState(command);
         return Collections.emptyList();

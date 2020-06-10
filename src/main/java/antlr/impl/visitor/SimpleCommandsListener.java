@@ -111,7 +111,6 @@ public class SimpleCommandsListener extends SimpleLogoBaseVisitor {
                 .collect(Collectors.toList());
 
         TwoArgCommand twoArgCommand = new TwoArgCommand(Type.SETXY, collect.get(0), collect.get(1));
-
         return Collections.singletonList(twoArgCommand);
     }
 

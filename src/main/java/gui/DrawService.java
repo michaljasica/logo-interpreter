@@ -1,6 +1,7 @@
 package gui;
 
 import command.OneArgCommand;
+import command.Type;
 import gui.model.MaxValue;
 import gui.model.Turtle;
 import javafx.scene.layout.Pane;
@@ -12,15 +13,25 @@ import java.util.function.BiFunction;
 
 public class DrawService {
 
-    public static List<Line> draw(Turtle turtle, Pane drawPanel, OneArgCommand command) {
+    public static List<Line> draw(Turtle turtle, Pane drawPanel, OneArgCommand command, boolean hack) {
+        rotateHack(turtle, command, hack);
         MaxValue maxValue = calculateMaxValue(turtle, command, drawPanel);
+
         if (command.getArgument() > maxValue.getMaxVal()) {
             ArrayList<Line> lines = new ArrayList<>();
             splitLine(turtle, drawPanel, command, maxValue, lines);
             return lines;
         } else {
             Pair<Double, Double> nextPoint = linePoint(turtle, command);
-            return generateLine(turtle, drawPanel, nextPoint);
+            List<Line> lines = generateLine(turtle, drawPanel, nextPoint);
+            rotateHack(turtle, command, true);
+            return lines;
+        }
+    }
+
+    private static void rotateHack(Turtle turtle, OneArgCommand command, Boolean hack) {
+        if (command.getType().equals(Type.BK) && hack) {
+            turtle.setRotation(turtle.getRotation() + Math.toRadians(180));
         }
     }
 
@@ -30,7 +41,7 @@ public class DrawService {
 
         lines.addAll(generateLine(turtle, drawPanel, nextPoint));
         newTurtlePosition(turtle, maxValue, drawPanel);
-        lines.addAll(draw(turtle, drawPanel, new OneArgCommand(command.getType(), (long) (command.getArgument() - maxValue.getMaxVal()))));
+        lines.addAll(draw(turtle, drawPanel, new OneArgCommand(command.getType(), (long) (command.getArgument() - maxValue.getMaxVal())), false));
     }
 
     private static void newTurtlePosition(Turtle turtle, MaxValue maxValue, Pane drawPanel) {
@@ -93,20 +104,16 @@ public class DrawService {
     }
 
     private static Pair<Double, Double> linePoint(Turtle turtle, OneArgCommand command) {
-        switch (command.getType()) {
-            case FD:
-                return calculateNextPoint.apply((-1) * turtle.getRotation(), command.getArgument());
-            default:
-                return calculateNextPoint.apply((-1) * turtle.getRotation(), (-1) * command.getArgument());
-        }
+        return calculateNextPoint.apply((-1) * turtle.getRotation(), command.getArgument());
     }
 
     private static MaxValue calculateMaxValue(Turtle turtle, OneArgCommand command, Pane drawPanel) {
         switch (command.getType()) {
             case FD:
-                return calculateMaxVal.apply(turtle, drawPanel);
+                return calculateFdMaxVal.apply(turtle, drawPanel);
             default:
-                return new MaxValue("x", 0L);
+                MaxValue apply = calculateFdMaxVal.apply(turtle, drawPanel);
+                return apply;
         }
     }
 
@@ -116,7 +123,39 @@ public class DrawService {
         return new Pair<>(x, y);
     };
 
-    private static BiFunction<Turtle, Pane, MaxValue> calculateMaxVal = (turtle, drawPanel) -> {
+    private static BiFunction<Turtle, Pane, MaxValue> calculateFdMaxVal = (turtle, drawPanel) -> {
+        double x = 0;
+        double y = 0;
+        double rotation = turtle.getRotation() % (2 * Math.PI);
+
+        // I quarter
+        if ((rotation >= 0 && rotation <= Math.toRadians(90)) || (rotation <= Math.toRadians(-270) && rotation >= Math.toRadians(-360))) {
+            x = Math.abs((drawPanel.getWidth() - turtle.getX()) / Math.sin(turtle.getRotation()));
+            y = Math.abs(turtle.getY() / Math.cos(turtle.getRotation()));
+        }
+
+        // II quarter
+        if ((rotation >= Math.toRadians(-90) && rotation <= Math.toRadians(0)) || (rotation <= Math.toRadians(360) && rotation >= Math.toRadians(270))) {
+            x = Math.abs(turtle.getX()/ Math.sin(turtle.getRotation()));
+            y = Math.abs(turtle.getY() / Math.cos(turtle.getRotation()));
+        }
+
+        // III quarter
+        if ((rotation >= Math.toRadians(180) && rotation <= Math.toRadians(270)) || (rotation <= Math.toRadians(-90) && rotation >= Math.toRadians(-180))) {
+            x = Math.abs(turtle.getX() / Math.sin(turtle.getRotation()));
+            y = Math.abs(Math.abs(drawPanel.getHeight() - turtle.getY()) / Math.cos(turtle.getRotation()));
+        }
+
+        // IV quarter
+        if ((rotation >= Math.toRadians(90) && rotation <= Math.toRadians(180)) || (rotation <= Math.toRadians(-180) && rotation >= Math.toRadians(-270))) {
+            x = Math.abs((drawPanel.getWidth() - turtle.getX()) / Math.sin(turtle.getRotation()));
+            y = Math.abs(Math.abs(drawPanel.getHeight() - turtle.getY()) / Math.cos(turtle.getRotation()));
+        }
+
+        return x < y ? new MaxValue("x", x) :  new MaxValue("y", y);
+    };
+
+    private static BiFunction<Turtle, Pane, MaxValue> calculateBkMaxVal = (turtle, drawPanel) -> {
         double x = 0;
         double y = 0;
         double rotation = turtle.getRotation() % (2 * Math.PI);
