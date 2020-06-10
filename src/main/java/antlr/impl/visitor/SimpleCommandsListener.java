@@ -95,4 +95,15 @@ public class SimpleCommandsListener extends SimpleLogoBaseVisitor {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<TwoArgCommand> visitSetxy(SimpleLogoParser.SetxyContext ctx) {
+        List<Long> collect = ctx.expression().stream()
+                .map(expression -> (Long)expression.accept(expressionListener))
+                .collect(Collectors.toList());
+
+        TwoArgCommand twoArgCommand = new TwoArgCommand(Type.SETXY, collect.get(0), collect.get(1));
+
+        return Collections.singletonList(twoArgCommand);
+    }
+
 }

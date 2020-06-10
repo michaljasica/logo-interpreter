@@ -68,8 +68,11 @@ public class ViewController {
                 .flatMap(x -> turtleService.draw(x).stream())
                 .collect(Collectors.toList());
 
-        turtleImage.setLayoutX(turtle.getX() - 10);
-        turtleImage.setLayoutY(turtle.getY() - 10);
+
+        turtleImage.setLayoutX(turtle.getX() - 13);
+        turtleImage.setLayoutY(turtle.getY() - 13);
+
+
 
         draw_panel.getChildren().addAll(collect);
     }

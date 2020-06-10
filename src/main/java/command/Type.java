@@ -14,6 +14,7 @@ public enum Type {
     HOME,
     STOP,
     LABEL,
-    PRINT
+    PRINT,
+    SETXY
 
 }

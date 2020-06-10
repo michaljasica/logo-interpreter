@@ -3,6 +3,7 @@ package gui;
 import antlr.impl.visitor.ExpressionListener;
 import command.Command;
 import command.OneArgCommand;
+import command.TwoArgCommand;
 import command.Type;
 import gui.model.Turtle;
 import javafx.scene.Node;
@@ -76,6 +77,9 @@ public class TurtleService {
             case HOME:
                 turtle.setHome();
                 break;
+            case SETXY:
+                turtle.setX(((TwoArgCommand)command).getArgumentOne().intValue());
+                turtle.setY(((TwoArgCommand)command).getArgumentTwo().intValue());
             default:
                 LOGGER.info("Command not handled!");
         }
