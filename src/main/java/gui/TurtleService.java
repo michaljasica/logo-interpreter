@@ -1,6 +1,5 @@
 package gui;
 
-import antlr.impl.visitor.ExpressionListener;
 import command.Command;
 import command.OneArgCommand;
 import command.TwoArgCommand;
@@ -13,7 +12,6 @@ import javafx.scene.shape.Line;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -37,10 +35,6 @@ public class TurtleService {
         }
         modifyTurtleState(command);
         return Collections.emptyList();
-    }
-
-    public Turtle getTurtle() {
-        return turtle;
     }
 
     private void modifyTurtleState (Command command) {

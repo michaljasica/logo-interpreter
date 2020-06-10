@@ -5,9 +5,11 @@ import antlr.impl.visitor.PrintVisitor;
 import antlr.impl.visitor.SimpleCommandsListener;
 import command.Command;
 import gui.ViewController;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.application.Application;
 
@@ -23,9 +25,9 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("scene.fxml"));
-        Parent root = (Parent)loader.load();
+        Parent root = (Parent) loader.load();
         Scene scene = new Scene(root, 300, 275);
-        ViewController controller = (ViewController)loader.getController();
+        ViewController controller = (ViewController) loader.getController();
 
         ExpressionListener expressionListener = new ExpressionListener();
         PrintVisitor printVisitor = new PrintVisitor(expressionListener);
@@ -48,7 +50,7 @@ public class Main extends Application {
 //        MainLogoVisitor simpleLogoParser = new MainLogoVisitor(simpleCommandsListener, printVisitor);
 //
 //        List<Command> parse = simpleLogoParser
-//                .parse("print 100 + 50\r\n");
+//                .parse("make \"done 100\r\n");
 //
 //        System.out.println("DONE");
 //    }

@@ -15,6 +15,7 @@ public enum Type {
     STOP,
     LABEL,
     PRINT,
-    SETXY
+    SETXY,
+    MAKE
 
 }

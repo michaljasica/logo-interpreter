@@ -3,18 +3,21 @@ package antlr.impl.visitor;
 import antlr.generated.SimpleLogoBaseVisitor;
 import antlr.generated.SimpleLogoParser;
 import org.antlr.v4.runtime.RuleContext;
-import org.antlr.v4.runtime.tree.ParseTree;
 import command.Number;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class ExpressionListener extends SimpleLogoBaseVisitor {
 
+    private final HashMap<String, String> variableMemory = new HashMap<>();
     private final static Logger LOGGER = Logger.getLogger(ExpressionListener.class.getName());
+
+    public HashMap<String, String> getVariableMemory() {
+        return variableMemory;
+    }
 
     @Override
     public Number visitSignExpression(SimpleLogoParser.SignExpressionContext ctx) {
@@ -31,7 +34,7 @@ public class ExpressionListener extends SimpleLogoBaseVisitor {
     @Override
     public Long visitExpressionValue(SimpleLogoParser.ExpressionValueContext ctx) {
         return Long.valueOf(ctx.children.stream()
-                .map(ParseTree::getText)
+                .map(obj -> (String) obj.accept(this))
                 .findFirst()
                 .orElse("0"));
     }
@@ -83,8 +86,36 @@ public class ExpressionListener extends SimpleLogoBaseVisitor {
     }
 
     @Override
+    public String visitFunc(SimpleLogoParser.FuncContext ctx) {
+        return (String) ctx.random().accept(this);
+    }
+
+    @Override
+    public String visitRandom(SimpleLogoParser.RandomContext ctx) {
+        String accept = (String) ctx.expression().accept(this);
+        double random = new Random().nextDouble() * Long.parseLong(accept);
+        return Integer.valueOf((int) random).toString();
+    }
+
+    @Override
     public String visitNumber(SimpleLogoParser.NumberContext ctx) {
         return String.valueOf(ctx.NUMBER());
+    }
+
+    @Override
+    public String visitDeref(SimpleLogoParser.DerefContext ctx) {
+        return String.valueOf(variableMemory.get(ctx.name().STRING().toString()));
+    }
+
+    @Override
+    public String visitValue(SimpleLogoParser.ValueContext ctx) {
+        return Objects.nonNull(ctx.STRINGLITERAL())
+                ? ctx.STRINGLITERAL().toString().substring(1)
+                : ctx.children.stream()
+                    .map(obj -> obj.accept(this))
+                    .map(Object::toString)
+                    .findFirst()
+                    .orElse("");
     }
 
     private List<String> getOperators(SimpleLogoParser.MultiplyingExpressionContext ctx) {
